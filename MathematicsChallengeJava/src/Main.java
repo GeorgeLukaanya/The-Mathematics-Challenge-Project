@@ -2,7 +2,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.*;
 
-public class ParticipantRegistrationWithAttachment {
+public class Main{
 
     // Database URL
     static final String DB_URL = "jdbc:mysql://localhost:3306/Mathematics_Challenge";
