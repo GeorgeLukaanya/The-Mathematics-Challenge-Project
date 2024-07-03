@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/jdbc.iml" filepath="$PROJECT_DIR$/.idea/jdbc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MathematicsChallengeJava.iml" filepath="$PROJECT_DIR$/MathematicsChallengeJava.iml" />
     </modules>
   </component>
 </project>
