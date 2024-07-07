@@ -12,7 +12,7 @@ public class JavaClient {
             System.out.println("Connected to the server.");
 
             // Prompt the user to enter the registration command
-            System.out.println("Enter the registration command (Register <username> <firstname> <lastname> <emailAddress> <date_of_birth> <school_registration_number> <image_file>):");
+            System.out.println("Enter the registration command \n(Register <username> <firstname> <lastname> <emailAddress> <date_of_birth YYYY-MM-DD> <school_registration_number> <image_file>):");
             String command = userIn.readLine();
 
             // Send the command to the server
