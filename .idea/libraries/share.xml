@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="share">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/mysql/mysql/share/Mongo2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/mysql/mysql/share/Mongo3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/mysql/mysql/share/JdbcInterface.jar!/" />
+      <root url="jar://$PROJECT_DIR$/mysql/mysql/share/JavaWrappers.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
