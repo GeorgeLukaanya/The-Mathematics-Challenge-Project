@@ -5,7 +5,7 @@ import java.sql.*;
 public class JavaServer {
 
     // Database URL
-    static final String DB_URL = "jdbc:mysql://localhost:3306/Mathematics_Challenge";
+    static final String DB_URL = "jdbc:mysql://localhost:3306/math-challengez";
     static final String USER = "root";
     static final String PASS = "";
 
