@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/MathematicsChallengeJava/lib/javax.mail.jar!/" />
+      <root url="jar://$PROJECT_DIR$/MathematicsChallengeJava/lib/mysql-connector-java-8.4.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/MathematicsChallengeJava/lib/activation.jar!/" />
+      <root url="jar://$PROJECT_DIR$/MathematicsChallengeJava/lib/javax.activation-api-1.2.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
