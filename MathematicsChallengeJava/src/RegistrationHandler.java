@@ -46,7 +46,7 @@ public class RegistrationHandler {
         System.out.println("Image File Path: " + imageFilePath);
 
         // Check the registration number in the database
-        String query = "SELECT RepresentativeEmail FROM School WHERE SchoolRegNo = ?";
+        String query = "SELECT email FROM schools WHERE reg_no = ?";
         try {
             PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.setString(1, registrationNumber);
@@ -54,7 +54,7 @@ public class RegistrationHandler {
 
             String representativeEmail = null;
             if (rs.next()) {
-                representativeEmail = rs.getString("RepresentativeEmail");
+                representativeEmail = rs.getString("email");
                 return sendEmailAndSaveDetails(userName, firstName, lastName, emailAddress, dateOfBirth, registrationNumber, imageFilePath, representativeEmail);
             } else {
                 return "No representative email found for the given registration number.";
