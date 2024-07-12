@@ -41,6 +41,15 @@ public class JavaServer {
                         // Process registration command using RegistrationHandler
                         String result = registrationHandler.processRegistrationCommand(command, conn);
                         out.println(result);
+                    } else if (command.startsWith("Login ")) {
+                        // Process login command using LoginHandler
+                        LoginHandler loginHandler = new LoginHandler(conn, out, in, registrationHandler);
+                        String result = loginHandler.processLoginCommand(command);
+                        if (result.equals("Login successful")) {
+                            loginHandler.showMenu();
+                        } else {
+                            out.println(result);
+                        }
                     } else {
                         out.println("Invalid command.");
                     }
