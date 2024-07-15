@@ -125,8 +125,8 @@
 
  <div class="container mt-7">
     <div class="alert alert-primary text-center" role="alert">
-      <h2>Welcome to <br> Mathematics Challenge Web System</h2>
-      <h2>You are logged in as Admin, Please choose your action</h2>
+      <h3>Welcome to <br> Mathematics Challenge Web System</h3>
+      <h3>You are logged in as Admin, Please choose your action</h3>
     </div>
   
  </div>
