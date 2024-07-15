@@ -81,5 +81,18 @@ use App\Http\Controllers\ChallengeController;
 Route::get('/challenges/create', [ChallengeController::class, 'create'])->name('challenges.create');
 Route::post('/challenges', [ChallengeController::class, 'store'])->name('challenges.store');
 
+//Question route
+use App\Http\Controllers\QuestionController;
+
+Route::get('/qn-upload', [QuestionController::class, 'create'])->name('questions.create');
+Route::post('/qn-upload', [QuestionController::class, 'store'])->name('questions.store');
+
+
+
+//Answer route
+use App\Http\Controllers\AnswerController;
+
+Route::get('/upload', [AnswerController::class, 'create'])->name('answers.create');
+Route::post('/upload', [AnswerController::class, 'store'])->name('answers.store');
 
 
