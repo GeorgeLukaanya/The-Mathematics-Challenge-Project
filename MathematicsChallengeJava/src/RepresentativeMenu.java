@@ -1,96 +1,130 @@
 import java.io.*;
+import java.nio.file.*;
 import java.sql.Connection;
-import java.util.List;
-import java.util.Scanner;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class RepresentativeMenu {
-    private Connection connection;
-    private ApplicantsFileHandler fileHandler;
-    private EmailSender emailSender;
-    private static final String PARTICIPANTS_FILE_PATH = "/opt/lampp/htdocs/The-Mathematics-Challenge-Project/MathematicsChallengeJava//participants.txt"; // Adjust the path based on your project structure
+    private Connection conn;
+    private PrintWriter out;
+    private BufferedReader in;
+    private RegistrationHandler registrationHandler;
 
-    public RepresentativeMenu(Connection connection) {
-        this.connection = connection;
-        this.fileHandler = new ApplicantsFileHandler(
-                "imap.mailtrap.io", // IMAP server for Mailtrap
-                "993", // IMAP port for SSL
-                "your_mailtrap_username", // Mailtrap username
-                "your_mailtrap_password"  // Mailtrap password
-        );
-        this.emailSender = new EmailSender(
-                "sandbox.smtp.mailtrap.io",
-                "2525",
-                "f3683be4bf7d0e",
-                "4bb6532709da20"
-        );
+    public RepresentativeMenu(Connection conn, PrintWriter out, BufferedReader in, RegistrationHandler registrationHandler) {
+        this.conn = conn;
+        this.out = out;
+        this.in = in;
+        this.registrationHandler = registrationHandler;
     }
 
-    public void startMenu() {
-        Scanner scanner = new Scanner(System.in);
+    public void showMenu() throws IOException {
         while (true) {
-            System.out.println("\nWelcome, Representative. Choose an option:");
-            System.out.println("1. View Applicants");
-            System.out.println("2. Confirm Applicant (usage: confirm yes/no username)");
-            System.out.println("3. Exit");
+            out.println("Enter a command: \nviewApplicants\nconfirm yes/no <username>\nLogout");
+            String command = in.readLine();
 
-            String input = scanner.nextLine();
-
-            switch (input) {
-                case "1":
-                    viewApplicants();
-                    break;
-                case "2":
-                    System.out.println("Enter command: ");
-                    String[] command = scanner.nextLine().split(" ");
-                    if (command.length == 3 && command[0].equalsIgnoreCase("confirm")) {
-                        confirmApplicant(command[1], command[2]);
-                    } else {
-                        System.out.println("Invalid command. Usage: confirm yes/no username");
-                    }
-                    break;
-                case "3":
-                    System.out.println("Exiting...");
-                    return;
-                default:
-                    System.out.println("Invalid option. Please try again.");
+            if (command.equals("viewApplicants")) {
+                viewApplicants();
+            } else if (command.startsWith("confirm ")) {
+                String[] details = command.split(" ");
+                if (details.length != 3) {
+                    out.println("Invalid command. Usage: confirm yes/no <username>");
+                } else {
+                    String action = details[1];
+                    String username = details[2];
+                    confirmParticipant(username, action.equals("yes"));
+                }
+            } else if (command.equals("Logout")) {
+                out.println("Logged out");
+                return;
+            } else {
+                out.println("Invalid command.");
             }
         }
     }
 
     private void viewApplicants() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(PARTICIPANTS_FILE_PATH))) {
+        String filePath = getAbsolutePath("participant_details.txt");
+        File file = new File(filePath);
+        if (!file.exists()) {
+            out.println("Error: participant_details.txt file not found.");
+            return;
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
-            System.out.println("List of Applicants:");
+            boolean hasData = false;
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+                out.println(line);
+                hasData = true;
+            }
+            if (!hasData) {
+                out.println("No participant details found in the file.");
             }
         } catch (IOException e) {
-            System.out.println("Error reading participants file: " + e.getMessage());
+            e.printStackTrace();
+            out.println("Error reading participant details.");
         }
     }
 
-    private void confirmApplicant(String decision, String username) {
-        boolean isAccepted = decision.equalsIgnoreCase("yes");
-        List<String[]> applicants = fileHandler.fetchApplicantsFromEmails();
+    private void confirmParticipant(String username, boolean accepted) {
+        String filePath = getAbsolutePath("participant_details.txt");
+        File file = new File(filePath);
+        if (!file.exists()) {
+            out.println("Error: participant_details.txt file not found.");
+            return;
+        }
 
-        for (String[] applicant : applicants) {
-            if (applicant[0].equals(username)) {
-                if (isAccepted) {
-                    if (DatabaseUtils.isPreviouslyRejected(connection, username, applicant[5])) {
-                        System.out.println("Applicant " + username + " has been previously rejected and cannot re-register under the same school.");
-                        return;
-                    }
-                    DatabaseUtils.insertParticipant(connection, applicant);
-                    emailSender.sendEmailWithAttachment(applicant[3], "applicant_accepted.txt");
-                } else {
-                    DatabaseUtils.insertRejected(connection, username, applicant[5], "Rejected by representative.");
-                    emailSender.sendEmailWithAttachment(applicant[3], "applicant_rejected.txt");
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            boolean found = false;
+            while ((line = reader.readLine()) != null) {
+                if (line.contains("Username: " + username)) {
+                    found = true;
+                    break;
                 }
-                fileHandler.removeApplicant(applicant);
-                System.out.println("Applicant " + username + " has been " + (isAccepted ? "accepted" : "rejected") + ".");
+            }
+            if (!found) {
+                out.println("Username not found in the details file.");
                 return;
             }
+
+            String tableName = accepted ? "AcceptedParticipants" : "RejectedParticipants";
+            String insertQuery = "INSERT INTO " + tableName + " (username, firstname, lastname, emailAddress, date_of_birth, registration_number, image_file) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement pstmt = conn.prepareStatement(insertQuery)) {
+                pstmt.setString(1, username);
+                pstmt.setString(2, getValueFromFile(reader, "First Name: "));
+                pstmt.setString(3, getValueFromFile(reader, "Last Name: "));
+                pstmt.setString(4, getValueFromFile(reader, "Email Address: "));
+                pstmt.setString(5, getValueFromFile(reader, "Date of Birth: "));
+                pstmt.setString(6, getValueFromFile(reader, "Registration Number: "));
+                pstmt.setString(7, getValueFromFile(reader, "Image File Path: "));
+                int rowsAffected = pstmt.executeUpdate();
+                if (rowsAffected > 0) {
+                    out.println("Participant " + (accepted ? "accepted" : "rejected") + " successfully.");
+                } else {
+                    out.println("Error: Participant not found.");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                out.println("Error moving participant details.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            out.println("Error reading participant details.");
         }
-        System.out.println("Applicant " + username + " not found.");
+    }
+
+    private String getValueFromFile(BufferedReader reader, String key) throws IOException {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            if (line.startsWith(key)) {
+                return line.substring(key.length()).trim();
+            }
+        }
+        return "";
+    }
+
+    private String getAbsolutePath(String fileName) {
+        return Paths.get(fileName).toAbsolutePath().toString();
     }
 }

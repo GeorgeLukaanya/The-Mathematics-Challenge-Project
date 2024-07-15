@@ -1,9 +1,6 @@
 import java.io.*;
 import java.sql.*;
 import java.util.Properties;
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.*;
 
@@ -13,12 +10,17 @@ public class RegistrationHandler {
     private String smtpPort;
     private String smtpUsername;
     private String smtpPassword;
+    private String filePath;
 
     public RegistrationHandler(String smtpHost, String smtpPort, String smtpUsername, String smtpPassword) {
         this.smtpHost = smtpHost;
         this.smtpPort = smtpPort;
         this.smtpUsername = smtpUsername;
         this.smtpPassword = smtpPassword;
+    }
+
+    public String getFilePath() {
+        return filePath;
     }
 
     // Method to process the registration command
@@ -67,34 +69,36 @@ public class RegistrationHandler {
 
     // Method to save participant details to a file, send email, and return result
     private String sendEmailAndSaveDetails(String userName, String firstName, String lastName, String emailAddress, String dob, String regNum, String imageFile, String representativeEmail) {
-        String filePath = "participant_details.txt";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-            writer.write("Participant Details:\n");
-            writer.write("Username: " + userName + "\n");
-            writer.write("First Name: " + firstName + "\n");
-            writer.write("Last Name: " + lastName + "\n");
-            writer.write("Email Address: " + emailAddress + "\n");
-            writer.write("Date of Birth: " + dob + "\n");
-            writer.write("Registration Number: " + regNum + "\n");
-            writer.write("Image File Path: " + imageFile + "\n");
-            if (representativeEmail != null) {
-                writer.write("Representative Email: " + representativeEmail + "\n");
-            } else {
-                writer.write("Representative Email: Not found\n");
-            }
-            writer.write("\n");
+        try {
+            filePath = new File("participant_details.txt").getAbsolutePath(); // Get absolute path
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+                writer.write("Participant Details:\n");
+                writer.write("Username: " + userName + "\n");
+                writer.write("First Name: " + firstName + "\n");
+                writer.write("Last Name: " + lastName + "\n");
+                writer.write("Email Address: " + emailAddress + "\n");
+                writer.write("Date of Birth: " + dob + "\n");
+                writer.write("Registration Number: " + regNum + "\n");
+                writer.write("Image File Path: " + imageFile + "\n");
+                if (representativeEmail != null) {
+                    writer.write("Representative Email: " + representativeEmail + "\n");
+                } else {
+                    writer.write("Representative Email: Not found\n");
+                }
+                writer.write("\n");
 
-            // Send email with attachment
-            sendEmailWithAttachment(representativeEmail, filePath);
-            return "Participant details saved to: " + filePath;
+                // Send email with a reminder
+                sendEmailReminder(representativeEmail);
+                return "Participant details saved to: " + filePath;
+            }
         } catch (IOException e) {
             e.printStackTrace();
             return "Error saving participant details.";
         }
     }
 
-    // Method to send email with attachment
-    private void sendEmailWithAttachment(String recipientEmail, String filePath) {
+    // Method to send email reminder
+    private void sendEmailReminder(String recipientEmail) {
         // Set properties
         Properties properties = new Properties();
         properties.put("mail.smtp.host", smtpHost);
@@ -115,30 +119,13 @@ public class RegistrationHandler {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress("no-reply@example.com")); // Change as needed
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
-            message.setSubject("Participant Registration Details");
-
-            // Create body part for the message
-            BodyPart messageBodyPart = new MimeBodyPart();
-            messageBodyPart.setText("Please find the attached participant details.");
-
-            // Create multipart
-            Multipart multipart = new MimeMultipart();
-            multipart.addBodyPart(messageBodyPart);
-
-            // Attachment part
-            messageBodyPart = new MimeBodyPart();
-            DataSource source = new FileDataSource(filePath);
-            messageBodyPart.setDataHandler(new DataHandler(source));
-            messageBodyPart.setFileName(new File(filePath).getName());
-            multipart.addBodyPart(messageBodyPart);
-
-            // Set the complete message
-            message.setContent(multipart);
+            message.setSubject("Reminder to verify student");
+            message.setText("Please verify the student details.");
 
             // Send message
             Transport.send(message);
 
-            System.out.println("Email sent successfully to " + recipientEmail);
+            System.out.println("Reminder email sent successfully to " + recipientEmail);
 
         } catch (MessagingException e) {
             e.printStackTrace();
