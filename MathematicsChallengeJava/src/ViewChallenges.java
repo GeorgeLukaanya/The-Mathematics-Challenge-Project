@@ -1,7 +1,8 @@
+import java.sql.*;
+import java.sql.Date;
 import java.util.*;
 
 public class ViewChallenges {
-
     private List<Challenge> challenges;
 
     public ViewChallenges(List<Challenge> challenges) {
@@ -11,36 +12,34 @@ public class ViewChallenges {
     public void displayChallenges() {
         System.out.println("Available Challenges:");
         for (Challenge challenge : challenges) {
-            if (challenge.isActive()) {
-                System.out.println("Challenge ID: " + challenge.getId());
-                System.out.println("Title: " + challenge.getTitle());
-                System.out.println("Description: " + challenge.getDescription());
-                System.out.println("Start Date: " + challenge.getStartDate());
-                System.out.println("End Date: " + challenge.getEndDate());
-                System.out.println("-*-*-*-*-*-*-*-*-*-*-*-*-*-");
-            }
+            System.out.println("Challenge ID: " + challenge.getId());
+            System.out.println("Name: " + challenge.getName());
+            System.out.println("Open Date: " + challenge.getOpenDate());
+            System.out.println("Close Date: " + challenge.getCloseDate());
+            System.out.println("Duration: " + challenge.getDuration());
+            System.out.println("Question Count: " + challenge.getQuestionCount());
+            System.out.println("Created At: " + challenge.getCreatedAt());
+            System.out.println("Updated At: " + challenge.getUpdatedAt());
+            System.out.println("-*-*-*-*-*-*-*-*-*-*-*-*-*-");
         }
     }
 
     public Challenge selectChallenge(long id) {
         for (Challenge challenge : challenges) {
-            if (challenge.getId() == id && challenge.isActive()) {
+            if (challenge.getId() == id) {
                 return challenge;
             }
         }
         return null;
     }
 
-    public static void main(String[] args) {
-        List<Challenge> challenges = new ArrayList<>();
-        challenges.add(new Challenge(1L, "Math Challenge 1", "Solve basic math problems with Muwonge.", new Date(), new Date(System.currentTimeMillis() + 86400000), true, Arrays.asList(
-                new Question(1L, "What is 2 + 2?", "4", 10),
-                new Question(2L, "What is 3 + 5?", "8", 10)
-        )));
-        challenges.add(new Challenge(2L, "Math Challenge 2", "Advanced math problems with Nicholas.", new Date(), new Date(System.currentTimeMillis() + 172800000), true, Arrays.asList(
-                new Question(3L, "What is 12 * 12?", "144", 10),
-                new Question(4L, "What is 25 / 5?", "5", 10)
-        )));
+    public static void main(String[] args) throws ClassNotFoundException {
+        List<Challenge> challenges = fetchChallengesFromDatabase();
+
+        if (challenges == null) {
+            System.out.println("Failed to fetch challenges from the database.");
+            return;
+        }
 
         ViewChallenges viewChallenges = new ViewChallenges(challenges);
         Scanner scanner = new Scanner(System.in);
@@ -73,58 +72,186 @@ public class ViewChallenges {
             }
         }
     }
+
+    private static List<Challenge> fetchChallengesFromDatabase() throws ClassNotFoundException {
+        List<Challenge> challenges = new ArrayList<>();
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            // Connect to the database
+            Class.forName("org.mariadb.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/math_challenge", "root", ""); // crededntials
+            stmt = conn.createStatement();
+
+            // Fetch challenges
+            String sql = "SELECT * FROM challenges";
+            rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                Date openDate = rs.getDate("open_date");
+                Date closeDate = rs.getDate("close_date");
+                int duration = rs.getInt("duration");
+                int questionCount = rs.getInt("question_count");
+                String createdAt = rs.getString("created_at");
+                String updatedAt = rs.getString("updated_at");
+
+                List<Question> questions = fetchQuestionsForChallenge(conn, id);
+                challenges.add(new Challenge(id, name, openDate, closeDate, duration, questionCount, createdAt, updatedAt, questions));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return challenges;
+    }
+
+    private static List<Question> fetchQuestionsForChallenge(Connection conn, long challengeId) {
+        List<Question> questions = new ArrayList<>();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            String sql = "SELECT * FROM questions WHERE challenge_id = ? ORDER BY RAND() LIMIT 10";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, challengeId);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String questionText = rs.getString("question_text");
+                String correctAnswer = rs.getString("correct_answer");
+                int marks = rs.getInt("marks");
+
+                List<Answer> answers = fetchAnswersForQuestion(conn, id);
+                questions.add(new Question(id, questionText, correctAnswer, marks, answers));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return questions;
+    }
+
+    private static List<Answer> fetchAnswersForQuestion(Connection conn, long questionId) {
+        List<Answer> answers = new ArrayList<>();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            String sql = "SELECT * FROM answers WHERE question_id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, questionId);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String answerText = rs.getString("answer_text");
+                boolean isCorrect = rs.getBoolean("is_correct");
+
+                answers.add(new Answer(id, answerText, isCorrect));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return answers;
+    }
 }
 
 class Challenge {
-    private Long id;
-    private String title;
-    private String description;
-    private Date startDate;
-    private Date endDate;
-    private boolean active;
+    private int id;
+    private String name;
+    private Date openDate;
+    private Date closeDate;
+    private int duration;
+    private int questionCount;
+    private String createdAt;
+    private String updatedAt;
     private List<Question> questions;
 
-    public Challenge(Long id, String title, String description, Date startDate, Date endDate, boolean active, List<Question> questions) {
+    public Challenge(int id, String name, Date openDate, Date closeDate, int duration, int questionCount, String createdAt, String updatedAt, List<Question> questions) {
         this.id = id;
-        this.title = title;
-        this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.active = active;
+        this.name = name;
+        this.openDate = openDate;
+        this.closeDate = closeDate;
+        this.duration = duration;
+        this.questionCount = questionCount;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.questions = questions;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public String getDescription() {
-        return description;
+    public Date getOpenDate() {
+        return openDate;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public Date getCloseDate() {
+        return closeDate;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public int getDuration() {
+        return duration;
     }
 
-    public boolean isActive() {
-        return active;
+    public int getQuestionCount() {
+        return questionCount;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
     }
 
     public void attemptChallenge(Scanner scanner) {
         int totalMarks = 0;
         for (Question question : questions) {
             System.out.println(question.getQuestionText());
+            List<Answer> answers = question.getAnswers();
+            for (Answer answer : answers) {
+                System.out.println("- " + answer.getAnswerText());
+            }
             System.out.print("Your answer: ");
-            String answer = scanner.next();
-            if (answer.equalsIgnoreCase(question.getCorrectAnswer())) {
+            String answerText = scanner.next();
+            Answer selectedAnswer = answers.stream().filter(a -> a.getAnswerText().equalsIgnoreCase(answerText)).findFirst().orElse(null);
+            if (selectedAnswer != null && selectedAnswer.isCorrect()) {
                 totalMarks += question.getMarks();
                 System.out.println("Correct! You earned " + question.getMarks() + " marks.");
             } else {
@@ -136,19 +263,21 @@ class Challenge {
 }
 
 class Question {
-    private Long id;
+    private int id;
     private String questionText;
     private String correctAnswer;
     private int marks;
+    private List<Answer> answers;
 
-    public Question(Long id, String questionText, String correctAnswer, int marks) {
+    public Question(int id, String questionText, String correctAnswer, int marks, List<Answer> answers) {
         this.id = id;
         this.questionText = questionText;
         this.correctAnswer = correctAnswer;
         this.marks = marks;
+        this.answers = answers;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
@@ -162,5 +291,33 @@ class Question {
 
     public int getMarks() {
         return marks;
+    }
+
+    public List<Answer> getAnswers() {
+        return answers;
+    }
+}
+
+class Answer {
+    private int id;
+    private String answerText;
+    private boolean isCorrect;
+
+    public Answer(int id, String answerText, boolean isCorrect) {
+        this.id = id;
+        this.answerText = answerText;
+        this.isCorrect = isCorrect;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getAnswerText() {
+        return answerText;
+    }
+
+    public boolean isCorrect() {
+        return isCorrect;
     }
 }
