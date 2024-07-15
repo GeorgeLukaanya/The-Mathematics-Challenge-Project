@@ -3,7 +3,6 @@ import java.net.*;
 import java.sql.*;
 
 public class JavaServer {
-
     // Database URL
     static final String DB_URL = "jdbc:mysql://localhost:3306/math-challengez";
     static final String USER = "root";
@@ -42,13 +41,12 @@ public class JavaServer {
                         String result = registrationHandler.processRegistrationCommand(command, conn);
                         out.println(result);
                     } else if (command.startsWith("Login ")) {
-                        // Process login command using LoginHandler
-                        LoginHandler loginHandler = new LoginHandler(conn, out, in, registrationHandler);
+                        // Create an instance of LoginHandler and process login command
+                        LoginHandler loginHandler = new LoginHandler(conn, out, in, registrationHandler.getFilePath());
                         String result = loginHandler.processLoginCommand(command);
+                        out.println(result);
                         if (result.equals("Login successful")) {
                             loginHandler.showMenu();
-                        } else {
-                            out.println(result);
                         }
                     } else {
                         out.println("Invalid command.");

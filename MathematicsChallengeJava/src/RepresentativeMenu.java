@@ -1,8 +1,10 @@
 import java.io.*;
-import java.sql.*;
+import java.nio.file.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class RepresentativeMenu {
-
     private Connection conn;
     private PrintWriter out;
     private BufferedReader in;
@@ -23,7 +25,14 @@ public class RepresentativeMenu {
             if (command.equals("viewApplicants")) {
                 viewApplicants();
             } else if (command.startsWith("confirm ")) {
-                confirmParticipant(command);
+                String[] details = command.split(" ");
+                if (details.length != 3) {
+                    out.println("Invalid command. Usage: confirm yes/no <username>");
+                } else {
+                    String action = details[1];
+                    String username = details[2];
+                    confirmParticipant(username, action.equals("yes"));
+                }
             } else if (command.equals("Logout")) {
                 out.println("Logged out");
                 return;
@@ -34,41 +43,37 @@ public class RepresentativeMenu {
     }
 
     private void viewApplicants() {
-        String filePath = "participant_details.txt";
+        String filePath = getAbsolutePath("participant_details.txt");
+        File file = new File(filePath);
+        if (!file.exists()) {
+            out.println("Error: participant_details.txt file not found.");
+            return;
+        }
+
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
+            boolean hasData = false;
             while ((line = reader.readLine()) != null) {
                 out.println(line);
+                hasData = true;
             }
-        } catch (FileNotFoundException e) {
-            out.println("Error: participant_details.txt file not found.");
+            if (!hasData) {
+                out.println("No participant details found in the file.");
+            }
         } catch (IOException e) {
             e.printStackTrace();
             out.println("Error reading participant details.");
         }
     }
 
-    private void confirmParticipant(String command) {
-        String[] details = command.split(" ");
-        if (details.length != 3) {
-            out.println("Invalid command. Usage: confirm yes/no <username>");
+    private void confirmParticipant(String username, boolean accepted) {
+        String filePath = getAbsolutePath("participant_details.txt");
+        File file = new File(filePath);
+        if (!file.exists()) {
+            out.println("Error: participant_details.txt file not found.");
             return;
         }
 
-        String action = details[1];
-        String username = details[2];
-
-        if (action.equals("yes")) {
-            moveParticipant(username, "AcceptedParticipants");
-        } else if (action.equals("no")) {
-            moveParticipant(username, "RejectedParticipants");
-        } else {
-            out.println("Invalid action. Use yes or no.");
-        }
-    }
-
-    private void moveParticipant(String username, String tableName) {
-        String filePath = "participant_details.txt";
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             boolean found = false;
@@ -83,6 +88,7 @@ public class RepresentativeMenu {
                 return;
             }
 
+            String tableName = accepted ? "AcceptedParticipants" : "RejectedParticipants";
             String insertQuery = "INSERT INTO " + tableName + " (username, firstname, lastname, emailAddress, date_of_birth, registration_number, image_file) VALUES (?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement pstmt = conn.prepareStatement(insertQuery)) {
                 pstmt.setString(1, username);
@@ -92,13 +98,16 @@ public class RepresentativeMenu {
                 pstmt.setString(5, getValueFromFile(reader, "Date of Birth: "));
                 pstmt.setString(6, getValueFromFile(reader, "Registration Number: "));
                 pstmt.setString(7, getValueFromFile(reader, "Image File Path: "));
-                pstmt.executeUpdate();
-                out.println("Participant details moved to " + tableName);
+                int rowsAffected = pstmt.executeUpdate();
+                if (rowsAffected > 0) {
+                    out.println("Participant " + (accepted ? "accepted" : "rejected") + " successfully.");
+                } else {
+                    out.println("Error: Participant not found.");
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
                 out.println("Error moving participant details.");
             }
-
         } catch (IOException e) {
             e.printStackTrace();
             out.println("Error reading participant details.");
@@ -109,9 +118,13 @@ public class RepresentativeMenu {
         String line;
         while ((line = reader.readLine()) != null) {
             if (line.startsWith(key)) {
-                return line.substring(key.length());
+                return line.substring(key.length()).trim();
             }
         }
         return "";
+    }
+
+    private String getAbsolutePath(String fileName) {
+        return Paths.get(fileName).toAbsolutePath().toString();
     }
 }
