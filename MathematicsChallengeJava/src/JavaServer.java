@@ -31,11 +31,11 @@ public class JavaServer {
 
                     // Read the command from the client
                     String command = in.readLine();
+                    System.out.println("Command received: " + command); // Debugging output
 
                     // Validate and process the command
                     if (command == null) {
                         out.println("Invalid command.");
-                        continue;
                     } else if (command.startsWith("Register ")) {
                         // Process registration command using RegistrationHandler
                         String result = registrationHandler.processRegistrationCommand(command, conn);
@@ -45,13 +45,14 @@ public class JavaServer {
                         LoginHandler loginHandler = new LoginHandler(conn, out, in, registrationHandler.getFilePath());
                         String result = loginHandler.processLoginCommand(command);
                         out.println(result);
+                        out.flush(); // Ensure the output is sent to the client
                         if (result.equals("Login successful")) {
-                            loginHandler.showMenu();
+                            RepresentativeMenu representativeMenu = new RepresentativeMenu(conn, out, in, registrationHandler.getFilePath());
+                            representativeMenu.showMenu();
                         }
                     } else {
                         out.println("Invalid command.");
                     }
-
                 } catch (IOException | SQLException e) {
                     e.printStackTrace();
                 }
