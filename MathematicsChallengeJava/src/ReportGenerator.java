@@ -1,38 +1,15 @@
-package ChallengeSystem;
+import java.sql.*;
 import java.util.*;
 import java.io.*;
 
 public class ReportGenerator {
 
-    public static void main(String[] args) {
-        List<Participant> participants = new ArrayList<>();
-        Scanner scanner = new Scanner(System.in);
+    public static void main(String[] args) throws ClassNotFoundException {
+        List<Participant> participants = fetchParticipantsFromDatabase();
 
-        System.out.println("Enter the number of participants:");
-        int numParticipants = scanner.nextInt();
-        scanner.nextLine(); 
-
-        for (int i = 0; i < numParticipants; i++) {
-            System.out.println("Enter the details for participant " + (i + 1) + ":");
-            System.out.print("Username: ");
-            String username = scanner.nextLine();
-            System.out.print("First Name: ");
-            String firstName = scanner.nextLine();
-            System.out.print("Last Name: ");
-            String lastName = scanner.nextLine();
-            System.out.print("Email: ");
-            String emailAddress = scanner.nextLine();
-            System.out.print("Date of Birth (YYYY-MM-DD): ");
-            String dateOfBirth = scanner.nextLine();
-            System.out.print("School Registration Number: ");
-            String schoolRegistrationNumber = scanner.nextLine();
-            System.out.print("Confirmed (true/false): ");
-            boolean confirmed = scanner.nextBoolean();
-            System.out.print("Score: ");
-            int score = scanner.nextInt();
-            scanner.nextLine();
-
-            participants.add(new Participant(username, firstName, lastName, emailAddress, dateOfBirth, schoolRegistrationNumber, confirmed, score));
+        if (participants == null) {
+            System.out.println("Failed to fetch participants from the database.");
+            return;
         }
 
         generateIndividualReports(participants);
@@ -40,20 +17,64 @@ public class ReportGenerator {
         generateAnalyticsReport(participants);
     }
 
+    public static List<Participant> fetchParticipantsFromDatabase() throws ClassNotFoundException {
+        List<Participant> participants = new ArrayList<>();
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            // Connect to the database
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/math_challenge", "username", "");//credentials
+            stmt = conn.createStatement();
+
+            // Fetch participants
+            String sql = "SELECT * FROM participants";
+            rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                String username = rs.getString("username");
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                String emailAddress = rs.getString("email_address");
+                String dateOfBirth = rs.getString("date_of_birth");
+                String schoolRegistrationNumber = rs.getString("school_registration_number");
+                boolean confirmed = rs.getBoolean("confirmed");
+                int score = rs.getInt("score");
+
+                participants.add(new Participant(username, firstName, lastName, emailAddress, dateOfBirth, schoolRegistrationNumber, confirmed, score));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return participants;
+    }
+
     public static void generateIndividualReports(List<Participant> participants) {
         for (Participant participant : participants) {
             try {
                 FileWriter writer = new FileWriter(participant.getUsername() + "_report.txt");
                 writer.write("Participant Report\n");
-                writer.write("*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+                writer.write("=================\n");
                 writer.write("Name: " + participant.getFirstName() + " " + participant.getLastName() + "\n");
                 writer.write("Email: " + participant.getEmailAddress() + "\n");
                 writer.write("School: " + participant.getSchoolRegistrationNumber() + "\n");
                 writer.write("Score: " + participant.getScore() + "\n");
                 writer.close();
-                System.out.println("A report has beeen generated for " + participant.getUsername());
+                System.out.println("Report generated for " + participant.getUsername());
             } catch (IOException e) {
-                System.out.println("An error has occurred while generating report for " + participant.getUsername());
+                System.out.println("An error occurred while generating report for " + participant.getUsername());
                 e.printStackTrace();
             }
         }
@@ -83,7 +104,7 @@ public class ReportGenerator {
                     });
 
             writer.close();
-            System.out.println("School ranking report has beenn generated.");
+            System.out.println("School ranking report generated.");
         } catch (IOException e) {
             System.out.println("An error occurred while generating school ranking report.");
             e.printStackTrace();
@@ -94,30 +115,7 @@ public class ReportGenerator {
         System.out.println("Analytics Report");
         System.out.println("================");
         System.out.println("Total Participants: " + participants.size());
-        System.out.println("Highest Score: " + participants.stream().mapToInt(Participant::getScore).max().orElse(0));
-        System.out.println("Lowest Score: " + participants.stream().mapToInt(Participant::getScore).min().orElse(0));
-        System.out.println("Average Score: " + participants.stream().mapToInt(Participant::getScore).average().orElse(0.0));
-
-        Map<String, List<Participant>> schoolParticipants = new HashMap<>();
-
-        for (Participant participant : participants) {
-            schoolParticipants.computeIfAbsent(participant.getSchoolRegistrationNumber(), k -> new ArrayList<>()).add(participant);
-        }
-
-        String bestSchool = schoolParticipants.entrySet().stream()
-                .max(Comparator.comparingDouble(e -> getAverageScore(e.getValue())))
-                .map(Map.Entry::getKey)
-                .orElse("N/A");
-
-        String worstSchool = schoolParticipants.entrySet().stream()
-                .min(Comparator.comparingDouble(e -> getAverageScore(e.getValue())))
-                .map(Map.Entry::getKey)
-                .orElse("N/A");
-
-        System.out.println("Best Performing School: " + bestSchool);
-        System.out.println("Worst Performing School: " + worstSchool);
     }
-
 
     private static double getAverageScore(List<Participant> participants) {
         return participants.stream().mapToInt(Participant::getScore).average().orElse(0.0);
