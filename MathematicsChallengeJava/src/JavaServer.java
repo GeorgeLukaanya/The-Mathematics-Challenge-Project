@@ -45,6 +45,7 @@ public class JavaServer {
                         LoginHandler loginHandler = new LoginHandler(conn, out, in, registrationHandler.getFilePath());
                         String result = loginHandler.processLoginCommand(command);
                         out.println(result);
+                        out.println();
                         out.flush(); // Ensure the output is sent to the client
                         if (result.equals("Login successful")) {
                             RepresentativeMenu representativeMenu = new RepresentativeMenu(conn, out, in, registrationHandler.getFilePath());

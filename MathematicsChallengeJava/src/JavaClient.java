@@ -26,6 +26,10 @@ public class JavaClient {
                     if (response.equals("Login successful")) {
                         break;
                     }
+                    if (response==null) {
+                        break;
+                    }
+
                 }
             }
 

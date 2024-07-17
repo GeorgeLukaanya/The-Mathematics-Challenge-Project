@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="Mathematics_Challenge@localhost" uuid="1ba1ab7d-5a7e-4ca2-9627-8e36f3c0f866">
+    <data-source source="LOCAL" name="math-challengez@localhost" uuid="aad70d90-22b7-480a-90cd-c188e1851796">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/Mathematics_Challenge</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/math-challengez</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
