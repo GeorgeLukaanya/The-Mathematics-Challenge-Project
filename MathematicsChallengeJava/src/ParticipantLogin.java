@@ -18,21 +18,39 @@ public class ParticipantLogin {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
 
-            boolean loggedIn = false;
+            while (true) {
+                System.out.println("Enter command: Login <username> <schoolRegNo>");
+                String input = scanner.nextLine();
+                String[] commandParts = input.split(" ");
 
-            while (!loggedIn) {
-                System.out.print("Enter username: ");
-                String username = scanner.nextLine();
+                if (commandParts.length == 3 && commandParts[0].equalsIgnoreCase("Login")) {
+                    String username = commandParts[1];
+                    String schoolRegNo = commandParts[2];
 
-                System.out.print("Enter your school's registration number: ");
-                String schoolREgNo = scanner.nextLine();
+                    if (verifyLogin(connection, username, schoolRegNo)) {
+                        System.out.println("Login successful!");
 
-                loggedIn = verifyLogin(connection, username, schoolREgNo);
+                        while (true) {
+                            System.out.println("viewchallenges");
+                            System.out.println("Enter command: viewchallenges ");
+                            String viewCommand = scanner.nextLine();
+                            if (viewCommand.equalsIgnoreCase("viewchallenges")) {
+                                System.out.println("Displaying challenges...");
 
-                if (loggedIn) {
-                    System.out.println("Login successful!");
+                                // Add code to display challenges
+
+
+                                break;
+                            } else {
+                                System.out.println("Invalid command. Please try again.");
+                            }
+                        }
+                        break;
+                    } else {
+                        System.out.println("Invalid username or school registration number. Please try again.");
+                    }
                 } else {
-                    System.out.println("Invalid username or password. Please try again.");
+                    System.out.println("Invalid command format. Use: Login <username> <schoolRegNo>");
                 }
             }
 
@@ -44,11 +62,11 @@ public class ParticipantLogin {
         }
     }
 
-    private static boolean verifyLogin(Connection connection, String username, String password) throws SQLException {
-        String query = "SELECT * FROM AcceptedParticipants WHERE username = ? AND schoolREgNo = ?";
+    private static boolean verifyLogin(Connection connection, String username, String schoolRegNo) throws SQLException {
+        String query = "SELECT * FROM `math-challengez`.acceptedparticipants WHERE username = ? AND schoolRegNo = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setString(1, username);
-        preparedStatement.setString(2, password);
+        preparedStatement.setString(2, schoolRegNo);
 
         ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -57,36 +75,7 @@ public class ParticipantLogin {
         resultSet.close();
         preparedStatement.close();
 
-        
-        if (isValidLogin(username, password)) {
-            // if at all our login is successful, then we display challenges
-            List<Challenge> challenges = fetchChallengesFromDatabase();
-            ViewChallenges viewChallenges = new ViewChallenges(challenges);
-            viewChallenges.displayChallenges();
-            Scanner scanner = new Scanner(System.in);
-            System.out.print("Enter Challenge ID to attempt: ");
-            long challengeId = scanner.nextLong();
-            Challenge selectedChallenge = viewChallenges.selectChallenge(challengeId);
-            if (selectedChallenge != null) {
-                //from here I think Abraham can check out if at all his code can be covered from the attempt challenge method
-                selectedChallenge.attemptChallenge(scanner);
-            } else {
-                System.out.println("Invalid Challenge ID or Challenge is not active.");
-            }
-        } else {
-            System.out.println("Invalid username or password.");
-        }
         return isValid;
-    }
-
-    private static boolean isValidLogin(String username, String password) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isValidLogin'");
-    }
-
-    private static List<Challenge> fetchChallengesFromDatabase() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'fetchChallengesFromDatabase'");
     }
 }
 
