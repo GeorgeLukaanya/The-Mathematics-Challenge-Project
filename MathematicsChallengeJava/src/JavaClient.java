@@ -17,6 +17,7 @@ public class JavaClient {
 
                 // Send the command to the server
                 out.println(command);
+                out.flush(); // Ensure the command is sent to the server
 
                 // Read and print the server's response
                 String response;

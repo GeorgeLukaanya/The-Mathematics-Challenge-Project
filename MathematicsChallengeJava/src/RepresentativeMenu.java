@@ -1,49 +1,51 @@
 import java.io.*;
-import java.nio.file.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
+// This code handles the representative menu
 public class RepresentativeMenu {
     private Connection conn;
     private PrintWriter out;
     private BufferedReader in;
-    private RegistrationHandler registrationHandler;
+    private String filePath;
 
-    public RepresentativeMenu(Connection conn, PrintWriter out, BufferedReader in, RegistrationHandler registrationHandler) {
+    public RepresentativeMenu(Connection conn, PrintWriter out, BufferedReader in, String filePath) {
         this.conn = conn;
         this.out = out;
         this.in = in;
-        this.registrationHandler = registrationHandler;
+        this.filePath = filePath;
     }
 
-    public void showMenu() throws IOException {
-        while (true) {
-            out.println("Enter a command: \nviewApplicants\nconfirm yes/no <username>\nLogout");
-            String command = in.readLine();
-
-            if (command.equals("viewApplicants")) {
-                viewApplicants();
-            } else if (command.startsWith("confirm ")) {
-                String[] details = command.split(" ");
-                if (details.length != 3) {
-                    out.println("Invalid command. Usage: confirm yes/no <username>");
+    public void showMenu() {
+        try {
+            while (true) {
+                out.println("Enter a command: \n1. viewApplicants\n2. confirm yes/no <username>\n3. Logout");
+                out.flush(); // Ensure the output is sent to the client
+                String command = in.readLine();
+                if (command.equals("1")) {
+                    viewApplicants();
+                } else if (command.startsWith("2 ")) {
+                    String[] details = command.split(" ");
+                    if (details.length != 3) {
+                        out.println("Invalid command. Usage: confirm yes/no <username>");
+                    } else {
+                        String action = details[1];
+                        String username = details[2];
+                        confirmParticipant(username, action.equals("yes"));
+                    }
+                } else if (command.equals("3")) {
+                    out.println("Logged out");
+                    return;
                 } else {
-                    String action = details[1];
-                    String username = details[2];
-                    confirmParticipant(username, action.equals("yes"));
+                    out.println("Invalid command.");
                 }
-            } else if (command.equals("Logout")) {
-                out.println("Logged out");
-                return;
-            } else {
-                out.println("Invalid command.");
+                out.flush(); // Ensure the output is sent to the client
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     private void viewApplicants() {
-        String filePath = getAbsolutePath("participant_details.txt");
         File file = new File(filePath);
         if (!file.exists()) {
             out.println("Error: participant_details.txt file not found.");
@@ -67,7 +69,6 @@ public class RepresentativeMenu {
     }
 
     private void confirmParticipant(String username, boolean accepted) {
-        String filePath = getAbsolutePath("participant_details.txt");
         File file = new File(filePath);
         if (!file.exists()) {
             out.println("Error: participant_details.txt file not found.");
@@ -122,9 +123,5 @@ public class RepresentativeMenu {
             }
         }
         return "";
-    }
-
-    private String getAbsolutePath(String fileName) {
-        return Paths.get(fileName).toAbsolutePath().toString();
     }
 }
