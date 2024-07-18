@@ -29,36 +29,40 @@ public class JavaServer {
 
                     System.out.println("Client connected.");
 
-                    // Read the command from the client
-                    String command = in.readLine();
-                    System.out.println("Command received: " + command); // Debugging output
+                    while (true) {
+                        // Read the command from the client
+                        String command = in.readLine();
+                        System.out.println("Command received: " + command); // Debugging output
 
-                    // Validate and process the command
-                    if (command == null) {
-                        out.println("Invalid command.");
-                    } else if (command.startsWith("Register ")) {
-                        // Process registration command using RegistrationHandler
-                        String result = registrationHandler.processRegistrationCommand(command, conn);
-                        out.println(result);
-                    } else if (command.startsWith("Login ")) {
-                        // Create an instance of LoginHandler and process login command
-                        LoginHandler loginHandler = new LoginHandler(conn, out, in, registrationHandler.getFilePath());
-                        String result = loginHandler.processLoginCommand(command);
-                        out.println(result);
-                        out.println();
-                        out.flush(); // Ensure the output is sent to the client
-                        if (result.equals("Login successful")) {
-                            RepresentativeMenu representativeMenu = new RepresentativeMenu(conn, out, in, registrationHandler.getFilePath());
-                            representativeMenu.showMenu();
+                        // Validate and process the command
+                        if (command == null) {
+                            out.println("Invalid command.");
+                        } else if (command.startsWith("Register ")) {
+                            // Process registration command using RegistrationHandler
+                            String result = registrationHandler.processRegistrationCommand(command, conn);
+                            out.println(result);
+                        } else if (command.startsWith("Login ")) {
+                            // Create an instance of LoginHandler and process login command
+                            LoginHandler loginHandler = new LoginHandler(conn, out, in);
+                            String result = loginHandler.processLoginCommand(command);
+                            out.println(result);
+                            if (result.equals("Login successful")) {
+                                RepresentativeMenu representativeMenu = new RepresentativeMenu(conn, out, in, registrationHandler.getFilePath());
+                                representativeMenu.showMenu();
+                            }
+                        } else {
+                            out.println("Invalid command.");
                         }
-                    } else {
-                        out.println("Invalid command.");
+
+                        // Re-prompt for command if necessary
+                        if (command == null || !command.startsWith("Login ")) {
+                            out.println("Enter a command: \nRegister <username> <firstname> <lastname> <emailAddress> <date_of_birth YYYY-MM-DD> <school_registration_number> <image_file>\nLogin <username> <password>");
+                        }
                     }
                 } catch (IOException | SQLException e) {
                     e.printStackTrace();
                 }
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
