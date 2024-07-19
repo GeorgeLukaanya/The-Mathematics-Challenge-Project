@@ -1,16 +1,17 @@
 import java.io.*;
 import java.sql.*;
+import java.util.Scanner;
 
 public class RepresentativeMenu {
     private Connection conn;
     private PrintWriter out;
-    private BufferedReader in;
+    private Scanner scanner;
     private String filePath;
 
-    public RepresentativeMenu(Connection conn, PrintWriter out, BufferedReader in, String filePath) {
+    public RepresentativeMenu(Connection conn, PrintWriter out, Scanner scanner, String filePath) {
         this.conn = conn;
         this.out = out;
-        this.in = in;
+        this.scanner = scanner;
         this.filePath = filePath;
     }
 
@@ -20,35 +21,41 @@ public class RepresentativeMenu {
                 out.println("Enter a command: \nviewApplicants\nconfirm yes/no <username>\nLogout");
                 out.flush(); // Ensure the prompt is sent to the client
 
-                String command = in.readLine();
+                String command = scanner.nextLine();
                 System.out.println("Representative command received: " + command); // Debugging output
 
-                if (command == null) {
+                if (command == null || command.trim().isEmpty()) {
+                    out.println("Invalid command.");
+                    out.flush();
                     continue;
                 }
 
-                if (command.equals("viewApplicants")) {
-                    viewApplicants();
-                } else if (command.startsWith("confirm ")) {
-                    String[] details = command.split(" ");
-                    if (details.length != 3) {
-                        out.println("Invalid command. Usage: confirm yes/no <username>");
-                    } else {
-                        String action = details[1];
-                        String username = details[2];
-                        confirmParticipant(username, action.equals("yes"));
-                    }
-                } else if (command.equals("Logout")) {
-                    out.println("Logged out");
-                    out.flush(); // Ensure the output is sent to the client
-                    break;
-                } else {
-                    out.println("Invalid command.");
+                boolean exitMenu = false;
+                switch (command.split(" ")[0]) {
+                    case "viewApplicants":
+                        viewApplicants();
+                        break;
+                    case "confirm":
+                        confirmParticipantCommand(command);
+                        break;
+                    case "Logout":
+                        out.println("Logged out");
+                        out.flush();
+                        exitMenu = true;
+                        break;
+                    default:
+                        out.println("Invalid command.");
+                        out.flush();
                 }
-                out.flush(); // Ensure the output is sent to the client
+
+                if (exitMenu) {
+                    break;
+                }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            out.println("Error handling the menu command.");
+            out.flush();
         }
     }
 
@@ -56,10 +63,11 @@ public class RepresentativeMenu {
         File file = new File(filePath);
         if (!file.exists()) {
             out.println("Error: participant_details.txt file not found.");
+            out.flush();
             return;
         }
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             boolean hasData = false;
             while ((line = reader.readLine()) != null) {
@@ -73,16 +81,31 @@ public class RepresentativeMenu {
             e.printStackTrace();
             out.println("Error reading participant details.");
         }
+        out.flush();
+    }
+
+    private void confirmParticipantCommand(String command) {
+        String[] details = command.split(" ");
+        if (details.length != 3) {
+            out.println("Invalid command. Usage: confirm yes/no <username>");
+            out.flush();
+            return;
+        }
+
+        String action = details[1];
+        String username = details[2];
+        confirmParticipant(username, action.equals("yes"));
     }
 
     private void confirmParticipant(String username, boolean accepted) {
         File file = new File(filePath);
         if (!file.exists()) {
             out.println("Error: participant_details.txt file not found.");
+            out.flush();
             return;
         }
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             boolean found = false;
             while ((line = reader.readLine()) != null) {
@@ -93,6 +116,7 @@ public class RepresentativeMenu {
             }
             if (!found) {
                 out.println("Username not found in the details file.");
+                out.flush();
                 return;
             }
 
@@ -116,6 +140,7 @@ public class RepresentativeMenu {
             e.printStackTrace();
             out.println("Error reading participant details.");
         }
+        out.flush();
     }
 
     private String getValueFromFile(String key, String username) throws IOException {

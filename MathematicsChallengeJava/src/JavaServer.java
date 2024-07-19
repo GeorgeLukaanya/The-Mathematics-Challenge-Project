@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.*;
 import java.sql.*;
+import java.util.Scanner;
 
 public class JavaServer {
     // Database URL
@@ -15,6 +16,9 @@ public class JavaServer {
         String smtpUsername = "f3683be4bf7d0e";
         String smtpPassword = "4bb6532709da20";
 
+        // Path to participant details file in project folder
+        String filePath = System.getProperty("user.dir") + File.separator + "participant_details.txt";
+
         // Create an instance of RegistrationHandler
         RegistrationHandler registrationHandler = new RegistrationHandler(smtpHost, smtpPort, smtpUsername, smtpPassword);
 
@@ -23,31 +27,28 @@ public class JavaServer {
 
             while (true) {
                 try (Socket socket = serverSocket.accept();
-                     BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                     Scanner scanner = new Scanner(socket.getInputStream());
                      PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                      Connection conn = DriverManager.getConnection(DB_URL, USER, PASS)) {
 
                     System.out.println("Client connected.");
 
+                    RepresentativeMenu representativeMenu = new RepresentativeMenu(conn, out, scanner, filePath);
+
                     while (true) {
-                        // Read the command from the client
-                        String command = in.readLine();
+                        String command = scanner.nextLine();
                         System.out.println("Command received: " + command); // Debugging output
 
-                        // Validate and process the command
-                        if (command == null) {
-                            out.println("Invalid command.");
-                        } else if (command.startsWith("Register ")) {
+                        if (command.startsWith("Register ")) {
                             // Process registration command using RegistrationHandler
                             String result = registrationHandler.processRegistrationCommand(command, conn);
                             out.println(result);
                         } else if (command.startsWith("Login ")) {
                             // Create an instance of LoginHandler and process login command
-                            LoginHandler loginHandler = new LoginHandler(conn, out, in);
+                            LoginHandler loginHandler = new LoginHandler(conn, out, scanner);
                             String result = loginHandler.processLoginCommand(command);
                             out.println(result);
                             if (result.equals("Login successful")) {
-                                RepresentativeMenu representativeMenu = new RepresentativeMenu(conn, out, in, registrationHandler.getFilePath());
                                 representativeMenu.showMenu();
                             }
                         } else {

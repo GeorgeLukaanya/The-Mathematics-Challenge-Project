@@ -1,16 +1,16 @@
 import java.io.*;
 import java.sql.*;
-import java.util.*;
+import java.util.Scanner;
 
 public class LoginHandler {
     private Connection conn;
     private PrintWriter out;
-    private BufferedReader in;
+    private Scanner scanner;
 
-    public LoginHandler(Connection conn, PrintWriter out, BufferedReader in) {
+    public LoginHandler(Connection conn, PrintWriter out, Scanner scanner) {
         this.conn = conn;
         this.out = out;
-        this.in = in;
+        this.scanner = scanner;
     }
 
     public String processLoginCommand(String command) {
@@ -23,29 +23,22 @@ public class LoginHandler {
             String username = parts[1];
             String password = parts[2];
 
-            // Validate login details against the database
-            String query = "SELECT password FROM schoolrepresentative WHERE username = ?";
+            // Validate user credentials
+            String query = "SELECT * FROM schoolrepresentative WHERE username = ? AND password = ?";
             try (PreparedStatement pstmt = conn.prepareStatement(query)) {
                 pstmt.setString(1, username);
-                ResultSet rs = pstmt.executeQuery();
-
-                if (rs.next()) {
-                    String storedPassword = rs.getString("password");
-                    if (storedPassword.equals(password)) {
+                pstmt.setString(2, password);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    if (rs.next()) {
                         return "Login successful";
                     } else {
-                        return "Wrong Login details, Try Again";
+                        return "Invalid username or password";
                     }
-                } else {
-                    return "Wrong Login details, Try Again";
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return "Database error during login.";
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            return "Error processing login command.";
+            return "Database error during login";
         }
     }
 }
