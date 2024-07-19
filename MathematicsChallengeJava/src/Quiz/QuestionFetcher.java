@@ -7,25 +7,31 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-    public class QuestionFetcher {
+public class QuestionFetcher {
+    private Connection connection;
 
-        public static List<Question> fetchRandomQuestions() {
-            List<Question> questions = new ArrayList<>();
-            String query = "SELECT id, question_text FROM questions ORDER BY RAND() LIMIT 10";
-
-            try (Connection connection = DatabaseConnection.getConnection();
-                 PreparedStatement statement = connection.prepareStatement(query);
-                 ResultSet resultSet = statement.executeQuery()) {
-
-                while (resultSet.next()) {
-                    int id = resultSet.getInt("id");
-                    String questionText = resultSet.getString("question_text");
-                    questions.add(new Question(id, questionText, ""));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return questions;
-        }
+    public QuestionFetcher(Connection connection) {
+        this.connection = connection;
     }
 
+    public List<Question> fetchRandomQuestions(int count) throws SQLException {
+        List<Question> questions = new ArrayList<>();
+        String query = "SELECT q.id, q.question_text, a.answers " +
+                "FROM questions q " +
+                "JOIN answers a ON q.id = a.id " +
+                "ORDER BY RAND() LIMIT ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, count);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String questionText = rs.getString("question_text");
+                    String answer = rs.getString("answers");
+                    questions.add(new Question(id, questionText, answer));
+                }
+            }
+        }
+        return questions;
+    }
+}
