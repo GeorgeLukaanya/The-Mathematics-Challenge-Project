@@ -1,0 +1,134 @@
+import java.io.*;
+import java.sql.*;
+import java.util.Properties;
+import javax.mail.*;
+import javax.mail.internet.*;
+
+public class RegistrationHandler {
+
+    private String smtpHost;
+    private String smtpPort;
+    private String smtpUsername;
+    private String smtpPassword;
+    private String filePath;
+
+    public RegistrationHandler(String smtpHost, String smtpPort, String smtpUsername, String smtpPassword) {
+        this.smtpHost = smtpHost;
+        this.smtpPort = smtpPort;
+        this.smtpUsername = smtpUsername;
+        this.smtpPassword = smtpPassword;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    // Method to process the registration command
+    public String processRegistrationCommand(String command, Connection conn) {
+        String[] details = command.split(" ");
+        if (details.length != 8) {
+            return "Invalid number of details. Usage: Register <username> <firstname> <lastname> <emailAddress> <date_of_birth> <school_registration_number> <image_file>";
+        }
+
+        String userName = details[1];
+        String firstName = details[2];
+        String lastName = details[3];
+        String emailAddress = details[4];
+        String dateOfBirth = details[5];
+        String registrationNumber = details[6];
+        String imageFilePath = details[7];
+
+        System.out.println("Received details from client:");
+        System.out.println("Username: " + userName);
+        System.out.println("First Name: " + firstName);
+        System.out.println("Last Name: " + lastName);
+        System.out.println("Email Address: " + emailAddress);
+        System.out.println("Date of Birth: " + dateOfBirth);
+        System.out.println("Registration Number: " + registrationNumber);
+        System.out.println("Image File Path: " + imageFilePath);
+
+        // Check the registration number in the database
+        String query = "SELECT email FROM schools WHERE reg_no = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, registrationNumber);
+            ResultSet rs = pstmt.executeQuery();
+
+            String representativeEmail = null;
+            if (rs.next()) {
+                representativeEmail = rs.getString("email");
+                return sendEmailAndSaveDetails(userName, firstName, lastName, emailAddress, dateOfBirth, registrationNumber, imageFilePath, representativeEmail);
+            } else {
+                return "No representative email found for the given registration number.";
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "Error processing registration.";
+        }
+    }
+
+    // Method to save participant details to a file, send email, and return result
+    private String sendEmailAndSaveDetails(String userName, String firstName, String lastName, String emailAddress, String dob, String regNum, String imageFile, String representativeEmail) {
+        try {
+            filePath = new File("participant_details.txt").getAbsolutePath(); // Get absolute path
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+                writer.write("Participant Details:\n");
+                writer.write("Username: " + userName + "\n");
+                writer.write("First Name: " + firstName + "\n");
+                writer.write("Last Name: " + lastName + "\n");
+                writer.write("Email Address: " + emailAddress + "\n");
+                writer.write("Date of Birth: " + dob + "\n");
+                writer.write("Registration Number: " + regNum + "\n");
+                writer.write("Image File Path: " + imageFile + "\n");
+                if (representativeEmail != null) {
+                    writer.write("Representative Email: " + representativeEmail + "\n");
+                } else {
+                    writer.write("Representative Email: Not found\n");
+                }
+                writer.write("\n");
+
+                // Send email with a reminder
+                sendEmailReminder(representativeEmail);
+                return "Participant details saved to: " + filePath;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Error saving participant details.";
+        }
+    }
+
+    // Method to send email reminder
+    private void sendEmailReminder(String recipientEmail) {
+        // Set properties
+        Properties properties = new Properties();
+        properties.put("mail.smtp.host", smtpHost);
+        properties.put("mail.smtp.port", smtpPort);
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+
+        // Create session
+        Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(smtpUsername, smtpPassword);
+            }
+        });
+
+        try {
+            // Create message
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("no-reply@example.com")); // Change as needed
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
+            message.setSubject("Reminder to verify student");
+            message.setText("Please verify the student details.");
+
+            // Send message
+            Transport.send(message);
+
+            System.out.println("Reminder email sent successfully to " + recipientEmail);
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+}
