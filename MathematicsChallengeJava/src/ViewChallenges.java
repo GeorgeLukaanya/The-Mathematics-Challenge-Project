@@ -81,10 +81,9 @@ public class ViewChallenges {
 
         try {
             // Connect to the database
-            Class.forName("org.mariadb.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/math_challenge", "root", ""); // crededntials
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/math-challengez", "username", "");//credentials
             stmt = conn.createStatement();
-
             // Fetch challenges
             String sql = "SELECT * FROM challenges";
             rs = stmt.executeQuery(sql);
@@ -92,15 +91,15 @@ public class ViewChallenges {
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
-                Date openDate = rs.getDate("open_date");
-                Date closeDate = rs.getDate("close_date");
+                Date open_date = rs.getDate("open_date");
+                Date close_date = rs.getDate("close_date");
                 int duration = rs.getInt("duration");
-                int questionCount = rs.getInt("question_count");
-                String createdAt = rs.getString("created_at");
-                String updatedAt = rs.getString("updated_at");
+                int question_count = rs.getInt("question_count");
+                String created_at = rs.getString("created_at");
+                String updated_at = rs.getString("updated_at");
 
                 List<Question> questions = fetchQuestionsForChallenge(conn, id);
-                challenges.add(new Challenge(id, name, openDate, closeDate, duration, questionCount, createdAt, updatedAt, questions));
+                challenges.add(new Challenge(id, name, open_date, close_date, duration, question_count, created_at, updated_at, questions));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -125,18 +124,19 @@ public class ViewChallenges {
 
         try {
             String sql = "SELECT * FROM questions WHERE challenge_id = ? ORDER BY RAND() LIMIT 10";
+             //rand() helps to randomize 10 questions
             pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, challengeId);
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 int id = rs.getInt("id");
-                String questionText = rs.getString("question_text");
-                String correctAnswer = rs.getString("correct_answer");
-                int marks = rs.getInt("marks");
+                String question_text = rs.getString("question_text");
+                String created_at = rs.getString("created_at");
+                String updated_at = rs.getString("updated_at");
 
                 List<Answer> answers = fetchAnswersForQuestion(conn, id);
-                questions.add(new Question(id, questionText, correctAnswer, marks, answers));
+                questions.add(new Question(id, question_text, created_at, updated_at, answers));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -165,10 +165,11 @@ public class ViewChallenges {
 
             while (rs.next()) {
                 int id = rs.getInt("id");
-                String answerText = rs.getString("answer_text");
-                boolean isCorrect = rs.getBoolean("is_correct");
-
-                answers.add(new Answer(id, answerText, isCorrect));
+                String answer_text = rs.getString("answer_text");
+                int marks = rs.getInt("marks");
+                String created_at = rs.getString("created_at");
+                String updated_at = rs.getString("updated_at");
+                answers.add(new Answer(id, answer_text, marks, created_at, updated_at));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -188,23 +189,23 @@ public class ViewChallenges {
 class Challenge {
     private int id;
     private String name;
-    private Date openDate;
-    private Date closeDate;
+    private Date open_date;
+    private Date close_date;
     private int duration;
-    private int questionCount;
-    private String createdAt;
-    private String updatedAt;
+    private int question_count;
+    private String created_at;
+    private String updated_at;
     private List<Question> questions;
 
-    public Challenge(int id, String name, Date openDate, Date closeDate, int duration, int questionCount, String createdAt, String updatedAt, List<Question> questions) {
+    public Challenge(int id, String name, Date open_date, Date close_date, int duration, int question_count, String created_at, String updated_at, List<Question> questions) {
         this.id = id;
         this.name = name;
-        this.openDate = openDate;
-        this.closeDate = closeDate;
+        this.open_date = open_date;
+        this.close_date = close_date;
         this.duration = duration;
-        this.questionCount = questionCount;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.question_count = question_count;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
         this.questions = questions;
     }
 
@@ -217,11 +218,11 @@ class Challenge {
     }
 
     public Date getOpenDate() {
-        return openDate;
+        return open_date;
     }
 
     public Date getCloseDate() {
-        return closeDate;
+        return close_date;
     }
 
     public int getDuration() {
@@ -229,15 +230,15 @@ class Challenge {
     }
 
     public int getQuestionCount() {
-        return questionCount;
+        return question_count;
     }
 
     public String getCreatedAt() {
-        return createdAt;
+        return created_at;
     }
 
     public String getUpdatedAt() {
-        return updatedAt;
+        return updated_at;
     }
 
     public void attemptChallenge(Scanner scanner) {
@@ -251,11 +252,11 @@ class Challenge {
             System.out.print("Your answer: ");
             String answerText = scanner.next();
             Answer selectedAnswer = answers.stream().filter(a -> a.getAnswerText().equalsIgnoreCase(answerText)).findFirst().orElse(null);
-            if (selectedAnswer != null && selectedAnswer.isCorrect()) {
-                totalMarks += question.getMarks();
-                System.out.println("Correct! You earned " + question.getMarks() + " marks.");
+            if (selectedAnswer != null && selectedAnswer.getMarks() > 0) {
+                totalMarks += selectedAnswer.getMarks();
+                System.out.println("Correct! You earned " + selectedAnswer.getMarks() + " marks.");
             } else {
-                System.out.println("Incorrect! The correct answer is " + question.getCorrectAnswer() + ".");
+                System.out.println("Incorrect! The correct answer is " + answers.stream().filter(a -> a.getMarks() > 0).findFirst().get().getAnswerText() + ".");
             }
         }
         System.out.println("You scored " + totalMarks + " out of " + (questions.size() * 10) + " marks.");
@@ -264,33 +265,34 @@ class Challenge {
 
 class Question {
     private int id;
-    private String questionText;
-    private String correctAnswer;
-    private int marks;
+    private String question_text;
+    private String created_at;
+    private String updated_at;
     private List<Answer> answers;
 
-    public Question(int id, String questionText, String correctAnswer, int marks, List<Answer> answers) {
+    public Question(int id, String question_text, String created_at, String updated_at, List<Answer> answers) {
         this.id = id;
-        this.questionText = questionText;
-        this.correctAnswer = correctAnswer;
-        this.marks = marks;
+        this.question_text = question_text;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
         this.answers = answers;
     }
+
 
     public int getId() {
         return id;
     }
 
     public String getQuestionText() {
-        return questionText;
+        return question_text;
     }
 
-    public String getCorrectAnswer() {
-        return correctAnswer;
+    public String getCreatedAt() {
+        return created_at;
     }
 
-    public int getMarks() {
-        return marks;
+    public String getUpdatedAt() {
+        return updated_at;
     }
 
     public List<Answer> getAnswers() {
@@ -300,13 +302,17 @@ class Question {
 
 class Answer {
     private int id;
-    private String answerText;
-    private boolean isCorrect;
+    private String answer_text;
+    private int marks;
+    private String created_at;
+    private String updated_at;
 
-    public Answer(int id, String answerText, boolean isCorrect) {
+    public Answer(int id, String answer_text, int marks, String created_at, String updated_at) {
         this.id = id;
-        this.answerText = answerText;
-        this.isCorrect = isCorrect;
+        this.answer_text = answer_text;
+        this.marks = marks;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
     }
 
     public int getId() {
@@ -314,10 +320,18 @@ class Answer {
     }
 
     public String getAnswerText() {
-        return answerText;
+        return answer_text;
     }
 
-    public boolean isCorrect() {
-        return isCorrect;
+    public int getMarks() {
+        return marks;
+    }
+
+    public String getCreatedAt() {
+        return created_at;
+    }
+
+    public String getUpdatedAt() {
+        return updated_at;
     }
 }
