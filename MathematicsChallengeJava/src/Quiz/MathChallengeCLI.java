@@ -8,6 +8,8 @@ import java.util.Scanner;
 
 public class MathChallengeCLI {
     private static Connection connection;
+    private static String currentUsername;
+    private static String currentSchoolRegNo;
 
     public static void main(String[] args) {
         // Database connection setup
@@ -19,14 +21,19 @@ public class MathChallengeCLI {
             connection = DriverManager.getConnection(url, user, password);
 
             // Start the main menu
-            showMainMenu();
+            //showMainMenu();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    private static void showMainMenu() {
+    public static void showMainMenu(Connection conn, String username, String schoolRegNo) {
+        connection = conn;
+        currentUsername = username;
+        currentSchoolRegNo = schoolRegNo;
+
+
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("\nMain Menu");
@@ -94,8 +101,13 @@ public class MathChallengeCLI {
                 }
             }
 
-            // Start the quiz
-            MathQuiz.startQuiz(questions, scanner);
+            // Start the quiz and get the results
+            int marks = MathQuiz.startQuiz(questions, scanner);
+            MathQuiz.stopwatch.stop();
+            long timeTaken = MathQuiz.stopwatch.getTime();
+
+            // Generate the report
+            ReportGeneration.generateReport(currentUsername, currentSchoolRegNo, timeTaken, marks);
 
         } catch (SQLException e) {
             e.printStackTrace();

@@ -5,9 +5,10 @@ import java.util.Scanner;
 
 public class MathQuiz {
     public static boolean quizOver = false;
+    public static int marks;
     public static Stopwatch stopwatch = new Stopwatch(5); // 5 minutes
 
-    public static void startQuiz(List<Question> questions, Scanner scanner) {
+    public static int startQuiz(List<Question> questions, Scanner scanner) {
         for (int i = 0; i < questions.size() && !quizOver; i++) {
             Question question = questions.get(i);
 
@@ -33,5 +34,6 @@ public class MathQuiz {
         stopwatch.stop();
         System.out.println("\nQuiz completed!");
         System.out.println("Final time remaining: " + stopwatch.formatTime(stopwatch.remainingTime()));
+        return marks;
     }
 }

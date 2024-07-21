@@ -31,4 +31,9 @@ public class Stopwatch {
         long seconds = timeInSeconds % 60;
         return String.format("%02d:%02d", minutes, seconds);
     }
+
+    public long getTime() {
+        long usedTime = System.currentTimeMillis() - startTime;
+        return usedTime;
+    }
 }
