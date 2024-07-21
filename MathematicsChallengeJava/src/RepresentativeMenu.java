@@ -120,21 +120,20 @@ public class RepresentativeMenu {
                 return;
             }
 
-            String tableName = accepted ? "AcceptedParticipants" : "RejectedParticipants";
-            String insertQuery = "INSERT INTO " + tableName + " (username, firstname, lastname, emailAddress, date_of_birth, registration_number, image_file) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String tableName = accepted ? "acceptedparticipants" : "rejectedparticipants";
+            String insertQuery = "INSERT INTO " + tableName + " (username, schoolRegNo, email, firstName, lastName, dateOfBirth) VALUES (?, ?, ?, ?, ?, ?)";
             try (PreparedStatement pstmt = conn.prepareStatement(insertQuery)) {
                 pstmt.setString(1, username);
-                pstmt.setString(2, getValueFromFile("First Name", username));
-                pstmt.setString(3, getValueFromFile("Last Name", username));
-                pstmt.setString(4, getValueFromFile("Email Address", username));
-                pstmt.setString(5, getValueFromFile("Date of Birth", username));
-                pstmt.setString(6, getValueFromFile("School Registration Number", username));
-                pstmt.setString(7, getValueFromFile("Image File", username));
+                pstmt.setString(2, getValueFromFile("School Registration Number", username));
+                pstmt.setString(3, getValueFromFile("Email Address", username));
+                pstmt.setString(4, getValueFromFile("First Name", username));
+                pstmt.setString(5, getValueFromFile("Last Name", username));
+                pstmt.setString(6, getValueFromFile("Date of Birth", username));
                 pstmt.executeUpdate();
                 out.println("Participant details successfully added to " + tableName + ".");
             } catch (SQLException e) {
                 e.printStackTrace();
-                out.println("Error adding participant details to database.");
+                out.println("Error adding participant details to database: " + e.getMessage());
             }
         } catch (IOException e) {
             e.printStackTrace();

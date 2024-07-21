@@ -51,6 +51,9 @@ public class JavaServer {
                             if (result.equals("Login successful")) {
                                 representativeMenu.showMenu();
                             }
+                        } else if (command.startsWith("viewApplicants") || command.startsWith("confirm")) {
+                            // Handle viewApplicants and confirm commands in representativeMenu
+                            representativeMenu.showMenu();
                         } else {
                             out.println("Invalid command.");
                         }
