@@ -74,11 +74,11 @@ public class RegistrationHandler {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
                 writer.write("Participant Details:\n");
                 writer.write("Username: " + userName + "\n");
+                writer.write("School Registration Number: " + regNum + "\n");
+                writer.write("Email Address: " + emailAddress + "\n");
                 writer.write("First Name: " + firstName + "\n");
                 writer.write("Last Name: " + lastName + "\n");
-                writer.write("Email Address: " + emailAddress + "\n");
                 writer.write("Date of Birth: " + dob + "\n");
-                writer.write("Registration Number: " + regNum + "\n");
                 writer.write("Image File Path: " + imageFile + "\n");
                 if (representativeEmail != null) {
                     writer.write("Representative Email: " + representativeEmail + "\n");

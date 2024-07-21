@@ -1,31 +1,10 @@
 Participant Details:
-Username: george
-First Name: George
-Last Name: Lukaanya
-Email Address: ltgwgeorge@gmail.com
-Date of Birth: 2003-01-30
-Registration Number: 2300700696
-Image File Path: jkj
-Representative Email: georgelukaanya348@gmail.com
-
-
-Participant Details:
 Username: khemical
+School Registration Number: 2300700696
+Email Address: okemapaul@gmail.com
 First Name: Paul
 Last Name: Okema
-Email Address: okemapaulmark@gmail.com
-Date of Birth: 2003-03-23
-Registration Number: 2300700696
-Image File Path: sds
-Representative Email: georgelukaanya348@gmail.com
-
-Participant Details:
-Username: abraham
-First Name: Abraham
-Last Name: Musheija
-Email Address: abrahammusheija@gmail.com
 Date of Birth: 2003-02-24
-Registration Number: 2300700696
-Image File Path: eere.jpg
+Image File Path: dsd.jpg
 Representative Email: georgelukaanya348@gmail.com
 
