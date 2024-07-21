@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jul 17, 2024 at 03:54 PM
+-- Host: localhost
+-- Generation Time: Jul 21, 2024 at 03:30 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -42,7 +42,9 @@ CREATE TABLE `acceptedparticipants` (
 --
 
 INSERT INTO `acceptedparticipants` (`id`, `username`, `schoolRegNo`, `email`, `firstName`, `lastName`, `dateOfBirth`) VALUES
-(1, 'georgelukaanya', '2300700696', 'ltgwgeorge@gmail.com', 'George', 'Lukaanya', '2003-01-30');
+(1, 'georgelukaanya', '2300700696', 'ltgwgeorge@gmail.com', 'George', 'Lukaanya', '2003-01-30'),
+(4, 'khemical', '2300700696', 'okemapaul@gmail.com', 'Paul', 'Okema', '2003-02-24'),
+(5, 'ryan', '2300700696', 'ryankizito@gmail.com', 'Ryan', 'Kizito', '2003-06-12');
 
 -- --------------------------------------------------------
 
@@ -548,9 +550,9 @@ CREATE TABLE `schoolrepresentative` (
 --
 
 INSERT INTO `schoolrepresentative` (`id`, `username`, `RepresentativeName`, `password`, `email`, `school_id`) VALUES
-(1, 'ryankizito', 'Kizito Ryan', 'password1', 'ryankizito@gmail.com', '230012139'),
-(2, 'paulokema342', 'Okema Paul Mark', 'password2', 'paulokema342@gmail.com', '230016648'),
-(3, 'georgelukaanya348', 'Lukaanya George', 'password3', 'georgelukaanya348@gmail.com', '2300700696');
+(1, 'kizito', 'Kizito Ryan', 'password1', 'ryankizito@gmail.com', '230012139'),
+(2, 'okema', 'Okema Paul Mark', 'password2', 'paulokema342@gmail.com', '230016648'),
+(3, 'lukaanya', 'Lukaanya George', 'password3', 'georgelukaanya348@gmail.com', '2300700696');
 
 -- --------------------------------------------------------
 
@@ -707,7 +709,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `acceptedparticipants`
 --
 ALTER TABLE `acceptedparticipants`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `answers`
