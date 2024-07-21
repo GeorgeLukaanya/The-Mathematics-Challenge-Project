@@ -1,3 +1,5 @@
+import Quiz.ParticipantLogin;
+
 import java.io.*;
 import java.net.*;
 import java.sql.*;
@@ -34,34 +36,52 @@ public class JavaServer {
                     System.out.println("Client connected.");
 
                     RepresentativeMenu representativeMenu = new RepresentativeMenu(conn, out, scanner, filePath);
+                    ParticipantLogin participantLogin = new ParticipantLogin();
+                    LoginHandler loginHandler = new LoginHandler(conn, out, scanner, representativeMenu);
 
                     while (true) {
                         String command = scanner.nextLine();
                         System.out.println("Command received: " + command); // Debugging output
 
-                        if (command.startsWith("Register ")) {
-                            // Process registration command using RegistrationHandler
-                            String result = registrationHandler.processRegistrationCommand(command, conn);
-                            out.println(result);
-                        } else if (command.startsWith("Login ")) {
-                            // Create an instance of LoginHandler and process login command
-                            LoginHandler loginHandler = new LoginHandler(conn, out, scanner);
-                            String result = loginHandler.processLoginCommand(command);
-                            out.println(result);
-                            if (result.equals("Login successful")) {
+                        try {
+                            if (command.startsWith("Register ")) {
+                                // Process registration command using RegistrationHandler
+                                String result = registrationHandler.processRegistrationCommand(command, conn);
+                                out.println(result);
+                            } else if (command.startsWith("Login ") && command.split(" ").length == 3) {
+                                String[] commandParts = command.split(" ");
+                                String username = commandParts[1];
+
+                                // Check which table the username belongs to
+                                if (usernameExistsInTable(conn, username, "schoolrepresentative")) {
+                                    String result = loginHandler.processLoginCommand(command);
+                                    out.println(result);
+                                    if (result.equals("Representative login successful")) {
+                                        representativeMenu.showMenu();
+                                    }
+                                } else if (usernameExistsInTable(conn, username, "acceptedparticipants")) {
+                                    String result = participantLogin.handleLogin(conn, commandParts[1], commandParts[2], out, scanner);
+                                    if (result.equals("Participant login successful")) {
+                                        continue; // Stay in the participant menu
+                                    } else {
+                                        out.println(result);
+                                    }
+                                } else {
+                                    out.println("Invalid username.");
+                                }
+                            } else if (command.startsWith("viewApplicants") || command.startsWith("confirm")) {
+                                // Handle viewApplicants and confirm commands in representativeMenu
                                 representativeMenu.showMenu();
+                            } else {
+                                out.println("Invalid command.");
                             }
-                        } else if (command.startsWith("viewApplicants") || command.startsWith("confirm")) {
-                            // Handle viewApplicants and confirm commands in representativeMenu
-                            representativeMenu.showMenu();
-                        } else {
-                            out.println("Invalid command.");
+                        } catch (Exception e) {
+                            out.println("An error occurred during login.");
+                            e.printStackTrace();
                         }
 
                         // Re-prompt for command if necessary
-                        if (command == null || !command.startsWith("Login ")) {
-                            out.println("Enter a command: \nRegister <username> <firstname> <lastname> <emailAddress> <date_of_birth YYYY-MM-DD> <school_registration_number> <image_file>\nLogin <username> <password>");
-                        }
+                        out.println("Enter a command: \nRegister <username> <firstname> <lastname> <emailAddress> <date_of_birth YYYY-MM-DD> <school_registration_number> <image_file>\nLogin <username> <password>\nLogin <username> <schoolRegNo>");
                     }
                 } catch (IOException | SQLException e) {
                     e.printStackTrace();
@@ -69,6 +89,17 @@ public class JavaServer {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static boolean usernameExistsInTable(Connection conn, String username, String tableName) throws SQLException {
+        String query = "SELECT username FROM `" + tableName + "` WHERE username = ?";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            boolean exists = resultSet.next();
+            resultSet.close();
+            return exists;
         }
     }
 }

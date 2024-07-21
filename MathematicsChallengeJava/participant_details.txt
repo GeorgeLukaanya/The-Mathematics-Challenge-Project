@@ -8,3 +8,23 @@ Date of Birth: 2003-02-24
 Image File Path: dsd.jpg
 Representative Email: georgelukaanya348@gmail.com
 
+Participant Details:
+Username: abraham
+School Registration Number: 2300700696
+Email Address: abrahammusheija@gmail.com
+First Name: Abraham
+Last Name: Musheija
+Date of Birth: 2003-02-10
+Image File Path: abra.jpg
+Representative Email: georgelukaanya348@gmail.com
+
+Participant Details:
+Username: ryan
+School Registration Number: 2300700696
+Email Address: ryankizito@gmail.com
+First Name: Ryan
+Last Name: Kizito
+Date of Birth: 2003-06-12
+Image File Path: ryan.jpg
+Representative Email: georgelukaanya348@gmail.com
+
