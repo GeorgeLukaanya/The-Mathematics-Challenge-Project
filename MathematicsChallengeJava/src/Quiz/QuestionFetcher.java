@@ -16,7 +16,7 @@ public class QuestionFetcher {
 
     public List<Question> fetchRandomQuestions(int count) throws SQLException {
         List<Question> questions = new ArrayList<>();
-        String query = "SELECT q.id, q.question_text, a.answers " +
+        String query = "SELECT q.id, q.question_text, a.answer_text " +
                 "FROM questions q " +
                 "JOIN answers a ON q.id = a.id " +
                 "ORDER BY RAND() LIMIT ?";
@@ -27,7 +27,7 @@ public class QuestionFetcher {
                 while (rs.next()) {
                     int id = rs.getInt("id");
                     String questionText = rs.getString("question_text");
-                    String answer = rs.getString("answers");
+                    String answer = rs.getString("answer_text");
                     questions.add(new Question(id, questionText, answer));
                 }
             }
