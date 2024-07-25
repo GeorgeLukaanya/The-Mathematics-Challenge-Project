@@ -1,25 +1,25 @@
 package Quiz;
 
 public class Question {
-    private int id;
     private String questionText;
-    private String answer;
+    private String correctAnswer;
+    private int marks;
 
-    public Question(int id, String questionText, String answer) {
-        this.id = id;
+    public Question(String questionText, String correctAnswer, int marks) {
         this.questionText = questionText;
-        this.answer = answer;
-    }
-
-    public int getId() {
-        return id;
+        this.correctAnswer = correctAnswer;
+        this.marks = marks;
     }
 
     public String getQuestionText() {
         return questionText;
     }
 
-    public String getAnswer() {
-        return answer;
+    public String getCorrectAnswer() {
+        return correctAnswer;
+    }
+
+    public int getMarks() {
+        return marks;
     }
 }

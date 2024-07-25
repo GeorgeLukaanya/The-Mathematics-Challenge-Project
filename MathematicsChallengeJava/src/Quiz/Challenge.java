@@ -24,25 +24,11 @@ public class Challenge {
         this.numberOfQuestions = numberOfQuestions;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public int getNumberOfQuestions() {
-        return numberOfQuestions;
-    }
+    // Getter methods...
 
     public static List<Challenge> fetchChallenges(Connection connection) throws SQLException {
         List<Challenge> challenges = new ArrayList<>();
-        String query = "SELECT id, name, open_date, close_date, duration, question_count FROM challenges";
+        String query = "SELECT id, name, opening_date, closing_date, duration, total_questions FROM challenges";
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             try (ResultSet rs = stmt.executeQuery()) {
@@ -52,7 +38,7 @@ public class Challenge {
                     String openingDate = rs.getString("opening_date");
                     String closingDate = rs.getString("closing_date");
                     int duration = rs.getInt("duration");
-                    int numberOfQuestions = rs.getInt("number_of_questions");
+                    int numberOfQuestions = rs.getInt("total_questions");
                     challenges.add(new Challenge(id, name, openingDate, closingDate, duration, numberOfQuestions));
                 }
             }
