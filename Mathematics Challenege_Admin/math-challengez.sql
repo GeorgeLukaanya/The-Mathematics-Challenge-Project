@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jul 11, 2024 at 12:51 PM
+-- Host: localhost
+-- Generation Time: Jul 25, 2024 at 10:19 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,33 @@ SET time_zone = "+00:00";
 --
 -- Database: `math-challengez`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `acceptedparticipants`
+--
+
+CREATE TABLE `acceptedparticipants` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `schoolRegNo` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `firstName` varchar(255) NOT NULL,
+  `lastName` varchar(255) NOT NULL,
+  `dateOfBirth` date NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `acceptedparticipants`
+--
+
+INSERT INTO `acceptedparticipants` (`id`, `username`, `schoolRegNo`, `email`, `firstName`, `lastName`, `dateOfBirth`, `created_at`, `updated_at`) VALUES
+(1, 'georgelukaanya', '2300700696', 'ltgwgeorge@gmail.com', 'George', 'Lukaanya', '2003-01-30', NULL, NULL),
+(4, 'khemical', '2300700696', 'okemapaul@gmail.com', 'Paul', 'Okema', '2003-02-24', NULL, NULL),
+(5, 'ryan', '2300700696', 'ryankizito@gmail.com', 'Ryan', 'Kizito', '2003-06-12', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -241,7 +268,209 @@ INSERT INTO `answers` (`id`, `answer_text`, `marks`, `created_at`, `updated_at`)
 (199, '108', 6, '2024-07-11 07:37:27', '2024-07-11 07:37:27'),
 (200, '1026', 6, '2024-07-11 07:37:27', '2024-07-11 07:37:27'),
 (201, '80', 6, '2024-07-11 07:37:27', '2024-07-11 07:37:27'),
-(202, '270', 6, '2024-07-11 07:37:27', '2024-07-11 07:37:27');
+(202, '270', 6, '2024-07-11 07:37:27', '2024-07-11 07:37:27'),
+(203, 'answers', 0, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(204, '2500', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(205, '68', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(206, '9', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(207, '9600', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(208, '2', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(209, '1683', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(210, '0.8636', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(211, '72', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(212, '6sqrt(2)', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(213, '5', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(214, '16', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(215, '15', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(216, '6', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(217, '5', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(218, '48', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(219, '45477', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(220, '70', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(221, '10', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(222, '120', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(223, '19', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(224, '3', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(225, '45511', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(226, '540', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(227, '12', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(228, '24', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(229, '24', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(230, '27', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(231, '150', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(232, '14', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(233, '50', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(234, '180', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(235, '45385', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(236, '50', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(237, '1005', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(238, '9600', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(239, '36', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(240, '5', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(241, '12', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(242, '10', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(243, '54', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(244, '75', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(245, '8', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(246, '10', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(247, '1', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(248, '80', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(249, '4.5', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(250, '17.5', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(251, '28', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(252, '24', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(253, '1000', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(254, '30', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(255, '40°, 60°, 80°.', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(256, '50', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(257, '6', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(258, '72', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(259, '13', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(260, '32', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(261, '129', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(262, '12', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(263, '0.35', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(264, '4', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(265, '24', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(266, '60', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(267, '24', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(268, '27', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(269, '2', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(270, '72', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(271, '30', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(272, '63', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(273, '25', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(274, '43', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(275, '121', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(276, '96', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(277, '64', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(278, '28', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(279, '5', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(280, '7', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(281, '41', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(282, '0.3', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(283, '19', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(284, '24', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(285, '36', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(286, '28', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(287, '60', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(288, '30', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(289, '24', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(290, '225', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(291, '6', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(292, '180', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(293, '16', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(294, '160', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(295, '7.5', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(296, '120', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(297, '3.5', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(298, '37X1', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(299, '4', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(300, '108', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(301, '1026', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(302, '80', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(303, '270', 6, '2024-07-24 14:43:44', '2024-07-24 14:43:44'),
+(304, 'answers', 0, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(305, '2500', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(306, '68', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(307, '9', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(308, '9600', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(309, '2', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(310, '1683', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(311, '0.8636', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(312, '72', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(313, '6sqrt(2)', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(314, '5', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(315, '16', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(316, '15', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(317, '6', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(318, '5', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(319, '48', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(320, '45477', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(321, '70', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(322, '10', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(323, '120', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(324, '19', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(325, '3', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(326, '45511', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(327, '540', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(328, '12', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(329, '24', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(330, '24', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(331, '27', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(332, '150', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(333, '14', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(334, '50', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(335, '180', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(336, '45385', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(337, '50', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(338, '1005', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(339, '9600', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(340, '36', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(341, '5', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(342, '12', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(343, '10', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(344, '54', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(345, '75', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(346, '8', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(347, '10', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(348, '1', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(349, '80', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(350, '4.5', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(351, '17.5', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(352, '28', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(353, '24', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(354, '1000', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(355, '30', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(356, '40°, 60°, 80°.', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(357, '50', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(358, '6', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(359, '72', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(360, '13', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(361, '32', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(362, '129', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(363, '12', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(364, '0.35', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(365, '4', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(366, '24', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(367, '60', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(368, '24', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(369, '27', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(370, '2', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(371, '72', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(372, '30', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(373, '63', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(374, '25', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(375, '43', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(376, '121', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(377, '96', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(378, '64', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(379, '28', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(380, '5', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(381, '7', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(382, '41', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(383, '0.3', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(384, '19', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(385, '24', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(386, '36', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(387, '28', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(388, '60', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(389, '30', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(390, '24', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(391, '225', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(392, '6', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(393, '180', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(394, '16', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(395, '160', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(396, '7.5', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(397, '120', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(398, '3.5', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(399, '37X1', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(400, '4', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(401, '108', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(402, '1026', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(403, '80', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11'),
+(404, '270', 6, '2024-07-25 15:40:11', '2024-07-25 15:40:11');
 
 -- --------------------------------------------------------
 
@@ -268,7 +497,8 @@ INSERT INTO `challenges` (`id`, `name`, `open_date`, `close_date`, `duration`, `
 (1, 'algebra', '2024-07-02', '2024-07-03', 60, 10, '2024-07-02 06:14:39', '2024-07-02 06:14:39'),
 (6, 'calculus', '2024-07-05', '2024-07-06', 60, 10, '2024-07-02 06:19:50', '2024-07-02 06:19:50'),
 (7, 'algebra', '2024-07-02', '2024-07-03', 30, 15, '2024-07-02 06:55:01', '2024-07-02 06:55:01'),
-(8, 'abacus', '2024-07-10', '2024-07-11', 30, 10, '2024-07-10 09:50:44', '2024-07-10 09:50:44');
+(8, 'abacus', '2024-07-10', '2024-07-11', 30, 10, '2024-07-10 09:50:44', '2024-07-10 09:50:44'),
+(9, 'Multiplication', '2024-07-24', '2024-07-28', 30, 10, '2024-07-24 14:42:51', '2024-07-24 14:42:51');
 
 -- --------------------------------------------------------
 
@@ -299,14 +529,6 @@ CREATE TABLE `failed_jobs` (
   `exception` longtext NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `file_uploads`
---
--- Error reading structure for table math-challengez.file_uploads: #1932 - Table &#039;math-challengez.file_uploads&#039; doesn&#039;t exist in engine
--- Error reading data for table math-challengez.file_uploads: #1064 - You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near &#039;FROM `math-challengez`.`file_uploads`&#039; at line 1
 
 -- --------------------------------------------------------
 
@@ -347,7 +569,14 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (21, '2024_07_04_211509_create_answers_table', 16),
 (22, '2024_07_04_213759_create_answers_table', 17),
 (23, '2024_07_11_102136_create_questions_table', 18),
-(24, '2024_07_11_102842_create_answers_table', 19);
+(24, '2024_07_11_102842_create_answers_table', 19),
+(25, '2024_07_09_084154_update_schools_table', 20),
+(26, '2024_07_17_102236_create_accepted_participants_table', 20),
+(27, '2024_07_17_102709_create_rejected_participants_table', 21),
+(28, '2024_07_17_103024_create_school_representative_table', 22),
+(29, '2024_07_17_101039_create_accepted_participants_table', 23),
+(30, '2024_07_25_092924_create_results_table', 24),
+(31, '2024_07_25_101608_create_results_table', 25);
 
 -- --------------------------------------------------------
 
@@ -598,7 +827,188 @@ INSERT INTO `questions` (`id`, `question_text`, `created_at`, `updated_at`) VALU
 (199, 'John has stamps from different countries. 1/3rd of them are India\'s stamps. If he has 36 Indian stamps, how many stamps does he have in total?', '2024-07-11 07:47:54', '2024-07-11 07:47:54'),
 (200, '1024+1025+___=1025+1025+1025 What number will come in the blank to make the number sentence correct', '2024-07-11 07:47:54', '2024-07-11 07:47:54'),
 (201, 'Two angles of a triangle measure 35 degrees and 65 degrees. What is the measure of the third angle of the triangle?', '2024-07-11 07:47:54', '2024-07-11 07:47:54'),
-(202, 'What is the sum of any THREE angles of a rectangle?', '2024-07-11 07:47:54', '2024-07-11 07:47:54');
+(202, 'What is the sum of any THREE angles of a rectangle?', '2024-07-11 07:47:54', '2024-07-11 07:47:54'),
+(203, 'question_text', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(204, ' What is the sum of the first 50 odd numbers?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(205, 'A rectangular garden has a length of 15 meters and a width of 10 meters. If a pathway of 1 meter wide is built around it, what is the area of the pathway?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(206, '3𝑥=813 x =81, what is the value of 2𝑥+12x+1', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(207, 'If a car\'s value decreases by 20% each year, what will its value be after 2 years if it is currently worth $15,000?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(208, '9x−1=27.find x.', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(209, 'Find the sum of all the multiples of 3 between 1 and 100.', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(210, 'Convert 19/22 to a decimal (rounded to 4 decimal places).', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(211, 'What is the least common multiple (LCM) of 8, 9, and 12?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(212, 'Simplify: sqrt(50)+sqrt(32)−sqrt(18) ', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(213, 'If 2^x=32, what is 𝑥', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(214, 'If the sum of three consecutive even numbers is 54, what is the smallest number?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(215, 'What is the square root of 225?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(216, 'Find the greatest common divisor (GCD) of 54 and 24.', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(217, 'Solve for x: 5x−7=18', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(218, 'What is 15% of 320?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(219, 'Simplify 98/56', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(220, 'A triangle has angles of 35° and 75°. What is the measure of the third angle?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(221, 'If the average of four numbers is 8 and the sum of three of them is 22, what is the fourth number?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(222, 'What is the value of 5!', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(223, 'Simplify the expression: 3(4+5)−2^3', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(224, 'A train travels at a speed of 60 km/h. How long will it take to travel 180 km?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(225, 'Convert 0.875 to a fraction in simplest form.', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(226, 'What is the sum of the interior angles of a pentagon?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(227, 'What is the square root of 144?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(228, 'Calculate the least common multiple (LCM) of 8 and 12.', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(229, 'A rectangle has a length of 10 cm and a diagonal of 26 cm. What is the width of the rectangle?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(230, 'What is the volume of a cube with side length of 3 cm?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(231, 'Convert 2.5 hours into minutes.', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(232, 'What is the next number in the sequence: 2, 5, 8, 11, ...?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(233, 'If a book costs $12.50 and you buy 4 books, what is the total cost?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(234, 'How many minutes are there in 3 hours?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(235, 'Convert 0.75 to a fraction.', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(236, 'What is 25% of 200?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(237, 'What is the sum of 348 and 657?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(238, 'If a car\'s value decreases by 20% each year, what will its value be after 2 years if it is currently worth $15,000?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(239, 'What is the perimeter of a right triangle with legs of 9 cm and 12 cm?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(240, 'If 3 times a number plus 5 is equal to 20, what is the number?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(241, 'A farmer has chickens and cows. There are 20 animals in total, and the number of legs is 56. How many chickens are there?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(242, 'The sum of the ages of a father and his son is 50 years. The father is 4 times as old as his son. How old is the son?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(243, 'The length of a rectangle is twice its width. If the perimeter of the rectangle is 36 cm, what is the area of the rectangle?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(244, 'If you spend $45, which is 3/5 of your total money, how much money did you have initially?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(245, 'The difference between the squares of two consecutive even numbers is 60. What are the numbers?v', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(246, 'If 5 more than twice a number is 25, what is the number?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(247, 'A number when divided by 4 leaves a remainder of 3. What is the remainder when the square of this number is divided by 4?', '2024-07-24 14:44:57', '2024-07-24 14:44:57'),
+(248, 'A train travels 60 km in 45 minutes. What is the train’s speed in km/h?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(249, 'If a person walks 5 km in an hour and jogs 10 km in an hour, how long will it take them to cover 35 km if they walk for 2 hours and jog for the rest?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(250, 'A bucket can be filled by a tap in 5 minutes and emptied by a hole in 7 minutes. If the tap and the hole are both open, how long will it take to fill the bucket?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(251, 'If the ratio of the lengths of two sides of a rectangle is 3:4 and the perimeter is 56 cm, what are the dimensions of the rectangle?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(252, 'A sum of money triples in 8 years at simple interest. In how many years will it become nine times itself?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(253, 'A man spends 80% of his income and saves the rest. If he spends $200 more than he saves, what is his total income?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(254, 'A jar contains 50 coins consisting of quarters and dimes. If the total value of the coins is $9.50, how many quarters are in the jar?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(255, 'If the angles of a triangle are in the ratio 2:3:4, what are the angles?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(256, 'A sum of money becomes 7 times itself in 12 years at simple interest. What is the rate of interest per annum?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(257, '54. What is the remainder when 12345 is divided by 9?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(258, 'Find the LCM of 18 and 24.', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(259, 'What is the square root of 169?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(260, 'What is 2^5', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(261, 'What is the sum of the first 10 prime numbers?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(262, ' What is 15% of 80', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(263, 'Convert 7/20to a decimal.', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(264, 'What is the cube root of 64?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(265, 'Find the least common multiple of 6 and 8.', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(266, 'What is 30% of 200?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(267, 'Find the least common multiple of 6 and 8.', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(268, 'What is 3^3', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(269, '8−3×2', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(270, 'What is half of 144?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(271, 'Subtract 15 from 45.', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(272, 'What is the product of 9 and 7?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(273, 'Divide 100 by 4.', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(274, 'Add 17 and 26.', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(275, 'What is the square of 11?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(276, 'Multiply 8 by 12.', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(277, 'What is 4 cubed?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(278, 'Find the perimeter of a square with side length 7 cm.', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(279, 'What is the remainder when 47 is divided by 6?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(280, 'If you multiply a number by 6 and get 42, what is the number?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(281, 'Subtract 19 from 60.', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(282, 'What is 0.6×0.5', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(283, 'What is 3^3−2^3', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(284, 'Find the value of 4! ', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(285, 'Simplify 7×8−5×4.', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(286, 'What is the sum of the first 5 prime numbers?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(287, 'What is the least common multiple of 15 and 20?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(288, 'What is the area of a triangle with base 10 cm and height 6 cm?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(289, 'Find the value of 3!×4.', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(290, 'What is 15^2 ', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(291, 'What is the greatest common divisor of 54 and 24?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(292, 'A car rental company charges $50 per day and an additional $0.20 per mile driven. If a customer rents a car for 3 days and drives 150 miles, what is the total cost?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(293, 'In a class of 40 students, 60% are girls. How many boys are in the class?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(294, 'A bicycle shop sells a bicycle for $200, making a 25% profit on the cost price. What is the cost price of the bicycle?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(295, 'If 5 workers can complete a task in 12 days, how many days will it take for 8 workers to complete the same task, assuming they work at the same rate?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(296, 'A farmer has 180 apples. He gives 1/3 of them to his friend and sells the rest. How many apples does he sell?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(297, 'If a person walks 5 km in 1 hour and jogs 10 km in 1 hour, how long will it take to cover a distance of 35 km if they walk for 2 hours and jog for the rest?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(298, 'Which of these numbers have only two factors, one and the number itself?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(299, 'Meena divides a number by 2 and then divides the result by 2 again. What is this equivalent to dividing the original number by?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(300, 'John has stamps from different countries. 1/3rd of them are India\'s stamps. If he has 36 Indian stamps, how many stamps does he have in total?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(301, '1024+1025+___=1025+1025+1025 What number will come in the blank to make the number sentence correct', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(302, 'Two angles of a triangle measure 35 degrees and 65 degrees. What is the measure of the third angle of the triangle?', '2024-07-24 14:44:58', '2024-07-24 14:44:58'),
+(303, 'What is the sum of any THREE angles of a rectangle?', '2024-07-24 14:44:58', '2024-07-24 14:44:58');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rejectedparticipants`
+--
+
+CREATE TABLE `rejectedparticipants` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `schoolRegNo` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `firstName` varchar(255) NOT NULL,
+  `lastName` varchar(255) NOT NULL,
+  `dateOfBirth` date NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `results`
+--
+
+CREATE TABLE `results` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `participant` varchar(255) NOT NULL,
+  `school` varchar(255) NOT NULL,
+  `challenge` varchar(255) NOT NULL,
+  `time_taken` varchar(255) NOT NULL,
+  `questions` varchar(255) NOT NULL,
+  `answers` varchar(255) NOT NULL,
+  `Total_score` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `results`
+--
+
+INSERT INTO `results` (`id`, `participant`, `school`, `challenge`, `time_taken`, `questions`, `answers`, `Total_score`, `created_at`, `updated_at`) VALUES
+(1, 'khemical', 'makerere', 'algebra', '4', 'Find the sum of all the multiples of 3 between 1 and 100.\r\n', '1683', 30, NULL, NULL),
+(3, 'ryan', 'kyambogo', 'abacus', '3', '3𝑥=813 x =81, what is the value of 2𝑥+12x+1\r\n', '9', 50, NULL, NULL),
+(5, 'georgelukaanya', 'ente', 'algebra', '5', ' What is the sum of the first 50 odd numbers?\r\n', '2500', 55, NULL, NULL),
+(6, 'khemical', 'makerere', 'algebra', '4', 'What is the square root of 144?\r\n', '12', 50, NULL, NULL),
+(7, 'georgelukaanya', 'ente', 'algebra', '5', ' What is the sum of the first 50 odd numbers?\r\n', '2500', 55, NULL, NULL),
+(8, 'khemical', 'makerere', 'algebra', '4', 'What is the square root of 144?\r\n', '12', 50, NULL, NULL),
+(9, 'ryan', 'kyambogo', 'abacus', '3', ' What is the sum of the first 50 odd numbers?\r\n', '2500', 45, NULL, NULL),
+(11, 'ryan', 'kyambogo', 'abacus', '3', ' What is the sum of the first 50 odd numbers?\r\n', '2500', 45, NULL, NULL),
+(13, 'khemical', 'makerere', 'abacus', '4', ' What is the sum of the first 50 odd numbers?\r\n', '2500', 54, NULL, NULL),
+(15, 'khemical', 'makerere', 'abacus', '4', ' What is the sum of the first 50 odd numbers?\r\n', '2500', 54, NULL, NULL),
+(17, 'abraham', 'kiu', 'abacus', '5', '9x−1=27.find x.\r\n', '2', 40, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `schoolrepresentative`
+--
+
+CREATE TABLE `schoolrepresentative` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `RepresentativeName` varchar(255) DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `school_id` varchar(15) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `schoolrepresentative`
+--
+
+INSERT INTO `schoolrepresentative` (`id`, `username`, `RepresentativeName`, `password`, `email`, `school_id`, `created_at`, `updated_at`) VALUES
+(1, 'kizito', 'Kizito Ryan', 'password1', 'ryankizito@gmail.com', '230012139', NULL, NULL),
+(2, 'okema', 'Okema Paul Mark', 'password2', 'paulokema342@gmail.com', '230016648', NULL, NULL),
+(3, 'lukaanya', 'Lukaanya George', 'password3', 'georgelukaanya348@gmail.com', '2300700696', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -622,8 +1032,12 @@ CREATE TABLE `schools` (
 --
 
 INSERT INTO `schools` (`id`, `name`, `district`, `reg_no`, `email`, `rep_name`, `created_at`, `updated_at`) VALUES
-(1, 'makerere', 'kampala', '23/U/16648/EVE', 'test@gmail.com', 'Lukaanya', '2024-06-28 06:30:32', '2024-06-28 06:30:32'),
-(2, 'kyambogo', 'wakiso', '23/U/2205/EVE', 'user@gmail.com', 'Okema Paul', '2024-06-28 06:32:35', '2024-06-28 06:32:35');
+(1, 'makerere', 'kampala', '2300700696', 'georgelukaanya348@gmail.com', 'Lukaanya George', '2024-06-28 06:30:32', '2024-06-28 06:30:32'),
+(2, 'kyambogo', 'wakiso', '230016648', 'paulokema@gmai.com', 'Okema Paul', '2024-06-28 06:32:35', '2024-06-28 06:32:35'),
+(3, 'kiu', 'kansanga', '230012139', 'ryankizito@gmail.com', 'Kizito Ryan', NULL, NULL),
+(4, 'khemi', 'Masaka', '23/U/2305/PS', 'test@gmail.com', 'Okot John', '2024-07-24 14:54:47', '2024-07-24 14:54:47'),
+(5, 'Ente', 'Mbarara', '2300714456', 'musheija@gmail.com', 'Musheija Abraham', '2024-07-24 14:57:07', '2024-07-24 14:57:07'),
+(6, 'algebra', 'Kiryandongo', '2300714457', 'admin@gmail.com', 'Nico', '2024-07-24 15:00:15', '2024-07-24 15:00:15');
 
 -- --------------------------------------------------------
 
@@ -661,6 +1075,13 @@ INSERT INTO `users` (`id`, `username`, `firstname`, `lastname`, `email`, `userty
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `acceptedparticipants`
+--
+ALTER TABLE `acceptedparticipants`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `accepted_participants_email_unique` (`email`);
 
 --
 -- Indexes for table `answers`
@@ -714,6 +1135,26 @@ ALTER TABLE `questions`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `rejectedparticipants`
+--
+ALTER TABLE `rejectedparticipants`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `rejected_participants_email_unique` (`email`);
+
+--
+-- Indexes for table `results`
+--
+ALTER TABLE `results`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `schoolrepresentative`
+--
+ALTER TABLE `schoolrepresentative`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `school_representative_email_unique` (`email`);
+
+--
 -- Indexes for table `schools`
 --
 ALTER TABLE `schools`
@@ -733,16 +1174,22 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `acceptedparticipants`
+--
+ALTER TABLE `acceptedparticipants`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `answers`
 --
 ALTER TABLE `answers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=203;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=405;
 
 --
 -- AUTO_INCREMENT for table `challenges`
 --
 ALTER TABLE `challenges`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `data`
@@ -760,7 +1207,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -772,13 +1219,31 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=203;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=304;
+
+--
+-- AUTO_INCREMENT for table `rejectedparticipants`
+--
+ALTER TABLE `rejectedparticipants`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `results`
+--
+ALTER TABLE `results`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT for table `schoolrepresentative`
+--
+ALTER TABLE `schoolrepresentative`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `schools`
 --
 ALTER TABLE `schools`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`

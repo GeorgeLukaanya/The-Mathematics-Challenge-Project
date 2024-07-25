@@ -21,43 +21,49 @@ public class CreatePDF {
      * @param questionAttempts a list of QuestionAttempt objects containing quiz details
      */
     public static void createReportPdf(String filePath, List<QuestionAttempt> questionAttempts) {
+        // Create a new document with A4 size
         Document document = new Document(PageSize.A4);
 
         try {
+            // Initialize PdfWriter to write to the specified file path
             PdfWriter.getInstance(document, new FileOutputStream(filePath));
-            document.open();
+            document.open(); // Open the document for writing
 
+            // Define fonts for the PDF
             Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
             Font questionFont = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL);
             Font answerFont = new Font(Font.FontFamily.HELVETICA, 12, Font.ITALIC);
 
-            // Add title
+            // Add title to the document
             Paragraph title = new Paragraph("Challenge Report", titleFont);
             title.setAlignment(Element.ALIGN_CENTER);
             document.add(title);
 
-            document.add(new Paragraph(" ")); // Add empty line
+            document.add(new Paragraph(" ")); // Add an empty line for spacing
 
-            // Iterate through the questions and answers
+            // Iterate through the list of QuestionAttempt objects and add details to the PDF
             for (int i = 0; i < questionAttempts.size(); i++) {
                 QuestionAttempt attempt = questionAttempts.get(i);
 
+                // Add question text
                 Paragraph questionParagraph = new Paragraph("Question " + (i + 1) + ": " + attempt.getQuestionText(), questionFont);
                 document.add(questionParagraph);
 
+                // Add the user's answer
                 Paragraph yourAnswerParagraph = new Paragraph("Your Answer: " + (attempt.getGivenAnswer() != null ? attempt.getGivenAnswer() : ""), answerFont);
                 document.add(yourAnswerParagraph);
 
+                // Add the correct answer
                 Paragraph correctAnswerParagraph = new Paragraph("Correct Answer: " + attempt.getCorrectAnswer(), answerFont);
                 document.add(correctAnswerParagraph);
 
-                document.add(new Paragraph(" ")); // Add empty line
+                document.add(new Paragraph(" ")); // Add an empty line for spacing
             }
 
         } catch (DocumentException | IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Handle exceptions
         } finally {
-            document.close();
+            document.close(); // Close the document
         }
     }
 }
