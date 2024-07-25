@@ -1,39 +1,45 @@
 package Quiz;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.Scanner;
 
 public class MathQuiz {
-    public static boolean quizOver = false;
-    public static int marks;
-    public static Stopwatch stopwatch = new Stopwatch(5); // 5 minutes
+    private static Instant startTime;
+    private static Instant endTime;
+
+    public static void startStopwatch() {
+        startTime = Instant.now();
+    }
+
+    public static void stopStopwatch() {
+        endTime = Instant.now();
+    }
+
+    public static long getElapsedTime() {
+        return Duration.between(startTime, endTime).toMillis();
+    }
 
     public static int startQuiz(List<Question> questions, Scanner scanner) {
-        for (int i = 0; i < questions.size() && !quizOver; i++) {
-            Question question = questions.get(i);
+        int marks = 0;
+        for (Question question : questions) {
+            System.out.println(question.getQuestionText());
+            String answer = scanner.nextLine().trim();
 
-            // Clear the screen and display the remaining time at the top
-            System.out.print("\033[H\033[2J"); // Clear the screen
-            System.out.flush();
+            boolean isCorrect = answer.equals(question.getCorrectAnswer());
 
-            // Display the remaining time in yellow
-            System.out.println("\033[1;33mTime Remaining: " + stopwatch.formatTime(stopwatch.remainingTime()) + "\033[0m");
-            System.out.println("Question " + (i + 1) + ": " + question.getQuestionText());
-            System.out.print("Your answer: ");
-            String userAnswer = scanner.nextLine();
-            // Store or process the user's answer
-
-            // Check if time is up
-            if (stopwatch.remainingTime() <= 0) {
-                quizOver = true;
-                System.out.println("\nTime's up!");
+            if (answer.equals("-") || answer.isEmpty()) {
+                // Participant is unsure or pressed enter without an answer
+                marks += 0;
+            } else if (!isCorrect) {
+                // Wrong answer
+                marks -= 3;
+            } else {
+                // Correct answer
+                marks += 6;
             }
         }
-
-        // Stop the stopwatch
-        stopwatch.stop();
-        System.out.println("\nQuiz completed!");
-        System.out.println("Final time remaining: " + stopwatch.formatTime(stopwatch.remainingTime()));
         return marks;
     }
 }

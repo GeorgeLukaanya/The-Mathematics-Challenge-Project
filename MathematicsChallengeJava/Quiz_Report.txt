@@ -1,0 +1,65 @@
+Mathematics Challenge Report
+============================
+
+Participant: ryan
+School Registration Number: 2300700696
+Total Time Taken: 9 seconds
+
+Summary
+=======
+Total Score: -6
+Percentage Score: -10.00%
+Accuracy Rate: 0.00%
+
+Detailed Report
+===============
+Question: A bicycle shop sells a bicycle for $200, making a 25% profit on the cost price. What is the cost price of the bicycle?
+Your Answer: 3
+Correct: No
+Marks Awarded: -3
+
+Question: What is 4 cubed?
+Your Answer: 3
+Correct: No
+Marks Awarded: -3
+
+Question: What is the sum of any THREE angles of a rectangle?
+Your Answer: 
+Correct: No
+Marks Awarded: 0
+
+Question: If 2^x=32, what is 𝑥
+Your Answer: 
+Correct: No
+Marks Awarded: 0
+
+Question: Find the least common multiple of 6 and 8.
+Your Answer: 
+Correct: No
+Marks Awarded: 0
+
+Question: A bicycle shop sells a bicycle for $200, making a 25% profit on the cost price. What is the cost price of the bicycle?
+Your Answer: 
+Correct: No
+Marks Awarded: 0
+
+Question: Find the value of 4! 
+Your Answer: 
+Correct: No
+Marks Awarded: 0
+
+Question: What is the least common multiple (LCM) of 8, 9, and 12?
+Your Answer: 
+Correct: No
+Marks Awarded: 0
+
+Question: Find the greatest common divisor (GCD) of 54 and 24.
+Your Answer: 
+Correct: No
+Marks Awarded: 0
+
+Question: If 5 more than twice a number is 25, what is the number?
+Your Answer: 
+Correct: No
+Marks Awarded: 0
+
