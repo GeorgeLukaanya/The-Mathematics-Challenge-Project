@@ -4,10 +4,9 @@ public class Stopwatch {
     private long startTime;
     private long endTime;
     private boolean running;
-    private int durationInMinutes;
 
-    public Stopwatch(int durationInMinutes) {
-        this.durationInMinutes = durationInMinutes;
+    public Stopwatch() {
+        this.running = false;
     }
 
     public void start() {
@@ -20,20 +19,17 @@ public class Stopwatch {
         this.running = false;
     }
 
-    public long remainingTime() {
-        long elapsedTime = System.currentTimeMillis() - startTime;
-        long totalDuration = durationInMinutes * 60 * 1000; // Duration in milliseconds
-        return (totalDuration - elapsedTime) / 1000; // Remaining time in seconds
+    public long getElapsedTime() {
+        if (running) {
+            return System.currentTimeMillis() - startTime;
+        }
+        return endTime - startTime;
     }
 
-    public String formatTime(long timeInSeconds) {
+    public String formatTime(long timeInMillis) {
+        long timeInSeconds = timeInMillis / 1000;
         long minutes = timeInSeconds / 60;
         long seconds = timeInSeconds % 60;
         return String.format("%02d:%02d", minutes, seconds);
-    }
-
-    public long getTime() {
-        long usedTime = System.currentTimeMillis() - startTime;
-        return usedTime;
     }
 }
