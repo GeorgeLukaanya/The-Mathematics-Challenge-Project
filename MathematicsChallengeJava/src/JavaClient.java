@@ -29,7 +29,7 @@ public class JavaClient {
             boolean participantLogin = false;
             while (true) {
                 if (!loggedIn && !participantLogin) {
-                    System.out.println("Enter a command: \nRegister <username> <firstname> <lastname> <emailAddress> <date_of_birth YYYY-MM-DD> <school_registration_number> <image_file>\nLogin <username> <password>\nLogin <username> <schoolRegNo>\nType 'exit' to close the client.");
+                    System.out.println("Enter a command: \nRegister <username> <firstname> <lastname> <emailAddress> <date_of_birth YYYY-MM-DD> <school_registration_number> <image_file>\nLogin <username> <password>\nLogin <username> <schoolRegNo>");
                     String command = scanner.nextLine();
                     out.println(command);
                     out.flush();
@@ -46,14 +46,11 @@ public class JavaClient {
                         System.out.println("Please log in.");
                     } else if (response != null && response.equals("An error occurred during login.")) {
                         System.out.println("Login failed. Please try again.");
-                    } else if (response != null && response.equals("Server closing.")) {
-                        System.out.println("Server is closing. Exiting client.");
-                        break; // Exit the client loop
                     }
                 } else if (loggedIn) {
                     // Handle representative menu commands
                     while (loggedIn) {
-                        System.out.println("Enter a command: \nviewApplicants\nconfirm yes/no <username>\nLogout\nType 'exit' to close the client.");
+                        System.out.println("Enter a command: \nviewApplicants\nconfirm yes/no <username>\nLogout");
                         String command = scanner.nextLine();
                         out.println(command);
                         out.flush();
@@ -65,16 +62,13 @@ public class JavaClient {
                             if (response.equals("Logged out")) {
                                 loggedIn = false;
                                 break;
-                            } else if (response.equals("Server closing.")) {
-                                System.out.println("Server is closing. Exiting client.");
-                                break; // Exit the client loop
                             }
                         }
                     }
                 } else if (participantLogin) {
                     // Handle participant menu commands
                     while (participantLogin) {
-                        System.out.println("Enter command: viewchallenges\nType 'exit' to close the client.");
+                        System.out.println("Enter command: viewchallenges");
                         String command = scanner.nextLine();
                         out.println(command);
                         out.flush();
@@ -86,9 +80,6 @@ public class JavaClient {
                             if (response.equals("Displaying challenges...")) {
                                 participantLogin = false; // Stay in the participant menu
                                 break;
-                            } else if (response.equals("Server closing.")) {
-                                System.out.println("Server is closing. Exiting client.");
-                                break; // Exit the client loop
                             }
                         }
                     }

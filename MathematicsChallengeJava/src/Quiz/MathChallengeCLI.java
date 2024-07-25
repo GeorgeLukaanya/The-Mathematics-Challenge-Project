@@ -8,38 +8,39 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MathChallengeCLI {
-    private static Connection connection;
-    private static String currentUsername;
+    static Connection connection;
+    static String currentUsername;
     private static String currentSchoolRegNo;
+    private static Stopwatch stopwatch = new Stopwatch();
 
     // ANSI escape codes for coloring
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_PURPLE = "\u001B[35m";
-    public static final String ANSI_CYAN = "\u001B[36m";
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_RED = "\u001B[31m";
+    private static final String ANSI_BLUE = "\u001B[34m";
 
     public static void main(String[] args) {
-        // Database connection setup
+        // Setup database connection
+        connectToDatabase();
+
+        // Start the main menu
+        showMainMenu(connection, currentUsername, currentSchoolRegNo);
+    }
+
+    private static void connectToDatabase() {
         String url = "jdbc:mysql://localhost:3306/math-challengez";
         String user = "root";
         String password = "";
 
         try {
             connection = DriverManager.getConnection(url, user, password);
-
-            // Start the main menu
-            showMainMenu(connection, "defaultUser", "defaultSchoolRegNo");
-
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Error connecting to the database: " + e.getMessage());
+            System.exit(1);
         }
     }
 
     public static void showMainMenu(Connection conn, String username, String schoolRegNo) {
-        connection = conn;
+        connection = conn; // Set the static connection field
         currentUsername = username;
         currentSchoolRegNo = schoolRegNo;
 
@@ -73,35 +74,35 @@ public class MathChallengeCLI {
         System.out.println("1. Abacus");
         System.out.println("2. Algebra");
         System.out.println("3. Calculus");
-        System.out.print("Choose a challenge: ");
+        System.out.println("Type 'attemptChallenge <challengeNumber>' to start the challenge.");
 
-        String choice = scanner.nextLine().trim();
-        switch (choice) {
-            case "1":
-            case "2":
-            case "3":
-                System.out.println("Type 'attemptChallenge' to start the challenge.");
-                while (true) {
-                    String command = scanner.nextLine().trim().toLowerCase();
-                    if (command.equals("attemptchallenge")) {
-                        attemptMathChallenge(scanner);
+        while (true) {
+            String command = scanner.nextLine().trim().toLowerCase();
+            if (command.startsWith("attemptchallenge ")) {
+                String[] parts = command.split(" ");
+                if (parts.length == 2) {
+                    try {
+                        int challengeNumber = Integer.parseInt(parts[1]);
+                        attemptMathChallenge(scanner, challengeNumber);
                         break;
-                    } else {
-                        System.out.println("Invalid command. Please type 'attemptChallenge' to start.");
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid challenge number. Please enter a valid number.");
                     }
+                } else {
+                    System.out.println("Invalid command format. Please use 'attemptChallenge <challengeNumber>'.");
                 }
-                break;
-            default:
-                System.out.println("Invalid choice. Returning to main menu.");
+            } else {
+                System.out.println("Invalid command. Please use 'attemptChallenge <challengeNumber>'.");
+            }
         }
     }
 
-    private static void attemptMathChallenge(Scanner scanner) {
+    private static void attemptMathChallenge(Scanner scanner, int challengeNumber) {
         try {
             QuestionFetcher questionFetcher = new QuestionFetcher(connection);
-            int attempts = 0;
             final int maxAttempts = 3;
             final int totalQuestions = 10;
+            int attempts = 0;
 
             while (attempts < maxAttempts) {
                 attempts++;
@@ -119,21 +120,19 @@ public class MathChallengeCLI {
                 while (true) {
                     String command = scanner.nextLine().trim().toLowerCase();
                     if (command.equals("start")) {
-                        MathQuiz.startStopwatch();
+                        stopwatch.start();
                         break;
                     }
                 }
 
                 // Start the quiz
                 int marks = 0;
-                long startTime = System.currentTimeMillis();
-                long quizDuration = 5 * 60 * 1000; // 5 minutes in milliseconds
                 int questionIndex = 0;
 
                 while (questionIndex < totalQuestions) {
-                    long currentTime = System.currentTimeMillis();
-                    long timeElapsed = currentTime - startTime;
-                    long timeRemaining = quizDuration - timeElapsed;
+                    long questionStartTime = System.currentTimeMillis();
+                    int elapsedTime = (int) stopwatch.getElapsedTime(); // Get elapsed time in milliseconds
+                    int timeRemaining = 5 * 60 * 1000 - elapsedTime; // 5 minutes in milliseconds
 
                     if (timeRemaining <= 0) {
                         System.out.println("Time's up!");
@@ -147,27 +146,29 @@ public class MathChallengeCLI {
                     String answer = scanner.nextLine().trim();
 
                     boolean isCorrect = answer.equals(question.getCorrectAnswer());
+                    long questionEndTime = System.currentTimeMillis();
+                    long questionTimeTaken = questionEndTime - questionStartTime;
 
                     if (answer.equals("-") || answer.isEmpty()) {
                         // Participant is unsure or pressed enter without an answer
-                        questionAttempts.add(new QuestionAttempt(question.getQuestionText(), answer, false, 0));
+                        questionAttempts.add(new QuestionAttempt(question.getQuestionText(), answer, question.getCorrectAnswer(), 0, false, questionTimeTaken, currentUsername));
                     } else if (!isCorrect) {
                         // Wrong answer
                         marks -= 3;
-                        questionAttempts.add(new QuestionAttempt(question.getQuestionText(), answer, false, -3));
+                        questionAttempts.add(new QuestionAttempt(question.getQuestionText(), answer, question.getCorrectAnswer(), -3, false, questionTimeTaken, currentUsername));
                     } else {
                         // Correct answer
                         marks += 6;
-                        questionAttempts.add(new QuestionAttempt(question.getQuestionText(), answer, true, 6));
+                        questionAttempts.add(new QuestionAttempt(question.getQuestionText(), answer, question.getCorrectAnswer(), 6, true, questionTimeTaken, currentUsername));
                     }
 
                     questionIndex++;
                 }
 
-                MathQuiz.stopStopwatch();
-                long totalTimeTaken = MathQuiz.getElapsedTime();
+                stopwatch.stop();
+                long totalTimeTaken = stopwatch.getElapsedTime();
 
-                // Generate the report
+                // Display the report on the server
                 ReportGeneration.generateReport(currentUsername, currentSchoolRegNo, totalTimeTaken, questionAttempts);
 
                 if (attempts < maxAttempts) {
@@ -188,14 +189,13 @@ public class MathChallengeCLI {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Database error: " + e.getMessage());
         }
     }
 
-    private static void displayQuizStatus(long timeRemaining, int questionsLeft) {
-        long minutes = (timeRemaining / 1000) / 60;
-        long seconds = (timeRemaining / 1000) % 60;
-
-        System.out.printf("%sTime Remaining: %02d:%02d%s | %sQuestions Remaining: %d%s\n", ANSI_RED, minutes, seconds, ANSI_RESET, ANSI_BLUE, questionsLeft, ANSI_RESET);
+    private static void displayQuizStatus(int timeRemaining, int questionsRemaining) {
+        int minutes = timeRemaining / 60000;
+        int seconds = (timeRemaining % 60000) / 1000;
+        System.out.printf(ANSI_RED + "Time Remaining: %02d:%02d | Questions Remaining: %d" + ANSI_RESET + "\n", minutes, seconds, questionsRemaining);
     }
 }

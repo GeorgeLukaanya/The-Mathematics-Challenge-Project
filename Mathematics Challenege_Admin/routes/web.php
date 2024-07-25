@@ -101,14 +101,12 @@ Route::post('/upload', [AnswerController::class, 'store'])->name('answers.store'
 //Routes for analytics
 use App\Http\Controllers\AnalyticsController;
 
-Route::get('/report/correct-answers', [AnalyticsController::class, 'correctAnswersReport'])->name('report.correct-answers');
-Route::get('/report/school-rankings', [AnalyticsController::class, 'schoolRankingsReport'])->name('report.school-rankings');
-Route::get('/report/performance-over-years', [AnalyticsController::class, 'performanceOverYearsReport'])->name('report.performance-over-years');
-Route::get('/report/repeated-questions', [AnalyticsController::class, 'repeatedQuestionsReport'])->name('report.repeated-questions');
-Route::get('/report/worst-performing-schools', [AnalyticsController::class, 'worstPerformingSchoolsReport'])->name('report.worst-performing-schools');
-Route::get('/report/best-performing-schools', [AnalyticsController::class, 'bestPerformingSchoolsReport'])->name('report.best-performing-schools');
-Route::get('/report/incomplete-challenges', [AnalyticsController::class, 'incompleteChallengesReport'])->name('report.incomplete-challenges');
-
-
+Route::get('/analytics/most-correctly-answered', [AnalyticsController::class, 'mostCorrectlyAnswered'])->name('analytics.mostCorrectlyAnswered');
+Route::get('/analytics/school-rankings', [AnalyticsController::class, 'schoolRankings'])->name('analytics.schoolRankings');
+Route::get('/analytics/performance-over-years', [AnalyticsController::class, 'performanceOverYears'])->name('analytics.performanceOverYears');
+Route::get('/analytics/question-repetition', [AnalyticsController::class, 'questionRepetition'])->name('analytics.questionRepetition');
+Route::get('/analytics/worst-performing-schools', [AnalyticsController::class, 'worstPerformingSchools'])->name('analytics.worstPerformingSchools');
+Route::get('/analytics/best-performing-schools', [AnalyticsController::class, 'bestPerformingSchools'])->name('analytics.bestPerformingSchools');
+Route::get('/analytics/incomplete-challenges', [AnalyticsController::class, 'incompleteChallenges'])->name('analytics.incompleteChallenges');
 
 
