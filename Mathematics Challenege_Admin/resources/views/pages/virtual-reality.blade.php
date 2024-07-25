@@ -24,13 +24,13 @@
                 <!-- <button id="generateReportBtn" class="btn btn-primary mt-3">Generate Report</button> -->
 
 
-                <a href="{{ route('report.correct-answers') }}" class="btn btn-primary">Most Correctly Answered Questions</a>
-                <a href="{{ route('report.school-rankings') }}" class="btn btn-primary">School Rankings</a>
-                <a href="{{ route('report.performance-over-years') }}" class="btn btn-primary">Performance Over Years</a>
-                <a href="{{ route('report.repeated-questions') }}" class="btn btn-primary">Repeated Questions</a>
-                <a href="{{ route('report.worst-performing-schools') }}" class="btn btn-primary">Worst Performing Schools</a>
-                <a href="{{ route('report.best-performing-schools') }}" class="btn btn-primary">Best Performing Schools</a>
-                <a href="{{ route('report.incomplete-challenges') }}" class="btn btn-primary">Incomplete Challenges</a>
+                <a href="{{ route('analytics.mostCorrectlyAnswered') }}" class="btn btn-primary">Most Correctly Answered Questions</a>
+                <a href="{{ route('analytics.schoolRankings') }}" class="btn btn-primary">School Rankings</a>
+                <a href="{{ route('analytics.performanceOverYears') }}" class="btn btn-primary">Performance Over Years</a>
+                <a href="{{ route('analytics.questionRepetition') }}" class="btn btn-primary">Repeated Questions</a>
+                <a href="{{ route('analytics.worstPerformingSchools') }}" class="btn btn-primary">Worst Performing Schools</a>
+                <a href="{{ route('analytics.bestPerformingSchools') }}" class="btn btn-primary">Best Performing Schools</a>
+                <a href="{{ route('analytics.incompleteChallenges') }}" class="btn btn-primary">Incomplete Challenges</a>
 
             </div>
         </div>
