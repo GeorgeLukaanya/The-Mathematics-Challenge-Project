@@ -25,6 +25,6 @@ class SchoolController extends Controller
         $school->rep_name = $validatedData['rep_name'];
         $school->save();
 
-        return redirect()->back()->with('success', 'School information saved successfully!');
+        return redirect()->route('school.create')->with('success', 'School information saved successfully!');
     }
 }

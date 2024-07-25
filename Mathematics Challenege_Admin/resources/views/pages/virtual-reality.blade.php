@@ -1,7 +1,7 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'Generate Report'])
+    @include('layouts.navbars.auth.topnav', ['title' => 'Generate Analytics'])
     <div class="container-fluid py-4">
 
 
@@ -20,8 +20,18 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center mt-5">
-                <h1>Generate Report for the Mathematics Challenge</h1>
-                <button id="generateReportBtn" class="btn btn-primary mt-3">Generate Report</button>
+                <h1>Generate Analytics for the Mathematics Challenge</h1>
+                <!-- <button id="generateReportBtn" class="btn btn-primary mt-3">Generate Report</button> -->
+
+
+                <a href="{{ route('report.correct-answers') }}" class="btn btn-primary">Most Correctly Answered Questions</a>
+                <a href="{{ route('report.school-rankings') }}" class="btn btn-primary">School Rankings</a>
+                <a href="{{ route('report.performance-over-years') }}" class="btn btn-primary">Performance Over Years</a>
+                <a href="{{ route('report.repeated-questions') }}" class="btn btn-primary">Repeated Questions</a>
+                <a href="{{ route('report.worst-performing-schools') }}" class="btn btn-primary">Worst Performing Schools</a>
+                <a href="{{ route('report.best-performing-schools') }}" class="btn btn-primary">Best Performing Schools</a>
+                <a href="{{ route('report.incomplete-challenges') }}" class="btn btn-primary">Incomplete Challenges</a>
+
             </div>
         </div>
     </div>
