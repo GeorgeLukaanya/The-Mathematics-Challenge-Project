@@ -3,6 +3,10 @@ import java.net.*;
 import java.util.Scanner;
 
 public class JavaClient {
+    // ANSI escape codes for coloring text in blue
+    private static final String BLUE = "\u001B[34m";
+    private static final String RESET = "\u001B[0m";
+
     public static void main(String[] args) {
         try (Socket socket = new Socket("localhost", 12345);
              Scanner scanner = new Scanner(System.in);
@@ -10,6 +14,15 @@ public class JavaClient {
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 
             System.out.println("Connected to the server.");
+
+            // Display welcome message
+            System.out.println(BLUE + "=================================================================" + RESET);
+            System.out.println(BLUE + "            Welcome to The International Education Services       " + RESET);
+            System.out.println(BLUE + "                   Mathematics Challenge Platform                  " + RESET);
+            System.out.println(BLUE + "=================================================================" + RESET);
+            System.out.println(BLUE + " Whether you are a Participant or a Representative, we welcome you " + RESET);
+            System.out.println(BLUE + "   to the ultimate platform for mathematical challenges and more!  " + RESET);
+            System.out.println(BLUE + "=================================================================\n" + RESET);
 
             // Handle login and menu commands
             boolean loggedIn = false;

@@ -16,6 +16,7 @@ public class QuestionFetcher {
 
     public List<Question> fetchRandomQuestions(int count) throws SQLException {
         List<Question> questions = new ArrayList<>();
+<<<<<<< HEAD
         Statement questionStatement = null;
         ResultSet questionResultSet = null;
         Statement answerStatement = null;
@@ -49,6 +50,21 @@ public class QuestionFetcher {
                 }
                 if (answerStatement != null && !answerStatement.isClosed()) {
                     answerStatement.close();
+=======
+        String query = "SELECT q.id, q.question_text, a.answer_text " +
+                "FROM questions q " +
+                "JOIN answers a ON q.id = a.id " +
+                "ORDER BY RAND() LIMIT ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, count);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String questionText = rs.getString("question_text");
+                    String answer = rs.getString("answer_text");
+                    questions.add(new Question(id, questionText, answer));
+>>>>>>> 3aa540f69e87791a72b42364ef23fbc0f48ed0f9
                 }
             }
         } finally {
