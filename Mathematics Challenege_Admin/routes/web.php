@@ -59,7 +59,7 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 
-
+//School Controller
 Route::get('/school/create', function () {
     return view('school.create');
 });
@@ -68,7 +68,7 @@ Route::post('/school/store', [SchoolController::class, 'store'])->name('school.s
 
 
 
-
+//file upload route
 Route::get('/fileupload/create', function () {
     return view('fileupload.create');
 });
@@ -76,6 +76,7 @@ Route::get('/fileupload/create', function () {
 Route::post('/fileupload/store', [FileUploadController::class, 'store'])->name('fileupload.store');
 
 
+//Challenge route
 use App\Http\Controllers\ChallengeController;
 
 Route::get('/challenges/create', [ChallengeController::class, 'create'])->name('challenges.create');
@@ -94,5 +95,20 @@ use App\Http\Controllers\AnswerController;
 
 Route::get('/upload', [AnswerController::class, 'create'])->name('answers.create');
 Route::post('/upload', [AnswerController::class, 'store'])->name('answers.store');
+
+
+
+//Routes for analytics
+use App\Http\Controllers\AnalyticsController;
+
+Route::get('/report/correct-answers', [AnalyticsController::class, 'correctAnswersReport'])->name('report.correct-answers');
+Route::get('/report/school-rankings', [AnalyticsController::class, 'schoolRankingsReport'])->name('report.school-rankings');
+Route::get('/report/performance-over-years', [AnalyticsController::class, 'performanceOverYearsReport'])->name('report.performance-over-years');
+Route::get('/report/repeated-questions', [AnalyticsController::class, 'repeatedQuestionsReport'])->name('report.repeated-questions');
+Route::get('/report/worst-performing-schools', [AnalyticsController::class, 'worstPerformingSchoolsReport'])->name('report.worst-performing-schools');
+Route::get('/report/best-performing-schools', [AnalyticsController::class, 'bestPerformingSchoolsReport'])->name('report.best-performing-schools');
+Route::get('/report/incomplete-challenges', [AnalyticsController::class, 'incompleteChallengesReport'])->name('report.incomplete-challenges');
+
+
 
 
