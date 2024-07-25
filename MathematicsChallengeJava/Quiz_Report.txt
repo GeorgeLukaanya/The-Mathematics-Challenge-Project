@@ -3,63 +3,63 @@ Mathematics Challenge Report
 
 Participant: ryan
 School Registration Number: 2300700696
-Total Time Taken: 9 seconds
+Total Time Taken: 6 seconds
 
 Summary
 =======
-Total Score: -6
-Percentage Score: -10.00%
+Total Score: -30
+Percentage Score: -50.00%
 Accuracy Rate: 0.00%
 
 Detailed Report
 ===============
-Question: A bicycle shop sells a bicycle for $200, making a 25% profit on the cost price. What is the cost price of the bicycle?
-Your Answer: 3
+Question: If 2^x=32, what is 𝑥
+Your Answer: 323
+Correct: No
+Marks Awarded: -3
+
+Question: A farmer has chickens and cows. There are 20 animals in total, and the number of legs is 56. How many chickens are there?
+Your Answer: 232
+Correct: No
+Marks Awarded: -3
+
+Question: A rectangular garden has a length of 15 meters and a width of 10 meters. If a pathway of 1 meter wide is built around it, what is the area of the pathway?
+Your Answer: 23
+Correct: No
+Marks Awarded: -3
+
+Question: Multiply 8 by 12.
+Your Answer: 23
+Correct: No
+Marks Awarded: -3
+
+Question: Simplify: sqrt(50)+sqrt(32)−sqrt(18) 
+Your Answer: 232
 Correct: No
 Marks Awarded: -3
 
 Question: What is 4 cubed?
-Your Answer: 3
+Your Answer: 323
 Correct: No
 Marks Awarded: -3
 
-Question: What is the sum of any THREE angles of a rectangle?
-Your Answer: 
+Question: A bucket can be filled by a tap in 5 minutes and emptied by a hole in 7 minutes. If the tap and the hole are both open, how long will it take to fill the bucket?
+Your Answer: 23
 Correct: No
-Marks Awarded: 0
+Marks Awarded: -3
 
-Question: If 2^x=32, what is 𝑥
-Your Answer: 
+Question: Simplify the expression: 3(4+5)−2^3
+Your Answer: 2323
 Correct: No
-Marks Awarded: 0
+Marks Awarded: -3
 
-Question: Find the least common multiple of 6 and 8.
-Your Answer: 
+Question: If a car's value decreases by 20% each year, what will its value be after 2 years if it is currently worth $15,000?
+Your Answer: 23
 Correct: No
-Marks Awarded: 0
+Marks Awarded: -3
 
-Question: A bicycle shop sells a bicycle for $200, making a 25% profit on the cost price. What is the cost price of the bicycle?
-Your Answer: 
+Question: Convert 2.5 hours into minutes.
+Your Answer: 232
 Correct: No
-Marks Awarded: 0
-
-Question: Find the value of 4! 
-Your Answer: 
-Correct: No
-Marks Awarded: 0
-
-Question: What is the least common multiple (LCM) of 8, 9, and 12?
-Your Answer: 
-Correct: No
-Marks Awarded: 0
-
-Question: Find the greatest common divisor (GCD) of 54 and 24.
-Your Answer: 
-Correct: No
-Marks Awarded: 0
-
-Question: If 5 more than twice a number is 25, what is the number?
-Your Answer: 
-Correct: No
-Marks Awarded: 0
+Marks Awarded: -3
 
