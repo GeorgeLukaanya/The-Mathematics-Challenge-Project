@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Jul 25, 2024 at 10:19 PM
+-- Host: 127.0.0.1
+-- Generation Time: Jul 26, 2024 at 10:06 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `math-challengez`
+-- Database: `mathematics-challenge`
 --
 
 -- --------------------------------------------------------
@@ -959,9 +959,12 @@ CREATE TABLE `results` (
   `participant` varchar(255) NOT NULL,
   `school` varchar(255) NOT NULL,
   `challenge` varchar(255) NOT NULL,
+  `correct` int(2) NOT NULL,
+  `year` varchar(5) NOT NULL,
   `time_taken` varchar(255) NOT NULL,
   `questions` varchar(255) NOT NULL,
   `answers` varchar(255) NOT NULL,
+  `completed` int(2) NOT NULL,
   `Total_score` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -971,18 +974,18 @@ CREATE TABLE `results` (
 -- Dumping data for table `results`
 --
 
-INSERT INTO `results` (`id`, `participant`, `school`, `challenge`, `time_taken`, `questions`, `answers`, `Total_score`, `created_at`, `updated_at`) VALUES
-(1, 'khemical', 'makerere', 'algebra', '4', 'Find the sum of all the multiples of 3 between 1 and 100.\r\n', '1683', 30, NULL, NULL),
-(3, 'ryan', 'kyambogo', 'abacus', '3', '3𝑥=813 x =81, what is the value of 2𝑥+12x+1\r\n', '9', 50, NULL, NULL),
-(5, 'georgelukaanya', 'ente', 'algebra', '5', ' What is the sum of the first 50 odd numbers?\r\n', '2500', 55, NULL, NULL),
-(6, 'khemical', 'makerere', 'algebra', '4', 'What is the square root of 144?\r\n', '12', 50, NULL, NULL),
-(7, 'georgelukaanya', 'ente', 'algebra', '5', ' What is the sum of the first 50 odd numbers?\r\n', '2500', 55, NULL, NULL),
-(8, 'khemical', 'makerere', 'algebra', '4', 'What is the square root of 144?\r\n', '12', 50, NULL, NULL),
-(9, 'ryan', 'kyambogo', 'abacus', '3', ' What is the sum of the first 50 odd numbers?\r\n', '2500', 45, NULL, NULL),
-(11, 'ryan', 'kyambogo', 'abacus', '3', ' What is the sum of the first 50 odd numbers?\r\n', '2500', 45, NULL, NULL),
-(13, 'khemical', 'makerere', 'abacus', '4', ' What is the sum of the first 50 odd numbers?\r\n', '2500', 54, NULL, NULL),
-(15, 'khemical', 'makerere', 'abacus', '4', ' What is the sum of the first 50 odd numbers?\r\n', '2500', 54, NULL, NULL),
-(17, 'abraham', 'kiu', 'abacus', '5', '9x−1=27.find x.\r\n', '2', 40, NULL, NULL);
+INSERT INTO `results` (`id`, `participant`, `school`, `challenge`, `correct`, `year`, `time_taken`, `questions`, `answers`, `completed`, `Total_score`, `created_at`, `updated_at`) VALUES
+(1, 'khemical', 'makerere', 'algebra', 1, '2024', '4', 'Find the sum of all the multiples of 3 between 1 and 100.\r\n', '1683', 1, 30, NULL, NULL),
+(3, 'ryan', 'kyambogo', 'abacus', 1, '2024', '3', '3𝑥=813 x =81, what is the value of 2𝑥+12x+1\r\n', '9', 1, 50, NULL, NULL),
+(5, 'georgelukaanya', 'ente', 'algebra', 0, '2024', '5', ' What is the sum of the first 50 odd numbers?\r\n', '2500', 0, 55, NULL, NULL),
+(6, 'khemical', 'makerere', 'algebra', 1, '2024', '4', 'What is the square root of 144?\r\n', '12', 1, 50, NULL, NULL),
+(7, 'georgelukaanya', 'ente', 'algebra', 1, '2024', '5', ' What is the sum of the first 50 odd numbers?\r\n', '2500', 1, 55, NULL, NULL),
+(8, 'khemical', 'makerere', 'algebra', 1, '2023', '4', 'What is the square root of 144?\r\n', '12', 1, 50, NULL, NULL),
+(9, 'ryan', 'kyambogo', 'abacus', 1, '2022', '3', ' What is the sum of the first 50 odd numbers?\r\n', '2500', 0, 45, NULL, NULL),
+(11, 'ryan', 'kyambogo', 'abacus', 0, '2024', '3', ' What is the sum of the first 50 odd numbers?\r\n', '2500', 1, 45, NULL, NULL),
+(13, 'khemical', 'makerere', 'abacus', 1, '2024', '4', ' What is the sum of the first 50 odd numbers?\r\n', '2500', 1, 54, NULL, NULL),
+(15, 'khemical', 'makerere', 'abacus', 1, '2022', '4', ' What is the sum of the first 50 odd numbers?\r\n', '2500', 1, 54, NULL, NULL),
+(17, 'abraham', 'kiu', 'abacus', 1, '2024', '5', '9x−1=27.find x.\r\n', '2', 0, 40, NULL, NULL);
 
 -- --------------------------------------------------------
 

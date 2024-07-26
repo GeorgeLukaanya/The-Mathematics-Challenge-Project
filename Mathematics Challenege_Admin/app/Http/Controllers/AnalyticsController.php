@@ -10,9 +10,9 @@ class AnalyticsController extends Controller
     {
         // Logic to get most correctly answered questions
         $results = DB::table('results')
-                    ->select('question', DB::raw('COUNT(correct) as correct_count'))
+                    ->select('questions', DB::raw('COUNT(correct) as correct_count'))
                     ->where('correct', 1)
-                    ->groupBy('question')
+                    ->groupBy('questions')
                     ->orderBy('correct_count', 'desc')
                     ->get();
 
