@@ -2,3 +2,5 @@ Number  	Username            	First Name          	Last Name           	Email   
 1       	mable               	Mable               	Tusiime             	mabletusiime@gmail.com	2003-06-12          	2300700696               	mable.jpg                               	2024-07-24 22:28:10
 2       	andrew              	Andrew              	Kanagwa             	andrewkanagwa@gmail.com	2003-06-12          	2300700696               	akanga.jpg                              	2024-07-24 22:31:08
 3       	alex                	Alex                	Wavamuno            	alex@gmail.com      	2000-02-12          	2300700696               	alex.jpg                                	2024-07-24 23:18:08
+4       	joab                	Joab                	Agaba               	joabagaba@gmail.com 	1970-12-12          	2300700696               	joab.jpg                                	2024-07-25 14:15:51
+5       	john                	John                	Esau                	esaujohn@gmai.com   	2003-12-12          	2300700696               	jew.jpg                                 	2024-07-25 23:25:09

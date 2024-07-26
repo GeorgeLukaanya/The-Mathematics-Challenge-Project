@@ -28,7 +28,7 @@ public class Challenge {
 
     public static List<Challenge> fetchChallenges(Connection connection) throws SQLException {
         List<Challenge> challenges = new ArrayList<>();
-        String query = "SELECT id, name, opening_date, closing_date, duration, total_questions FROM challenges";
+        String query = "SELECT id, name, open_date, close_date, duration, question_count FROM challenges";
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             try (ResultSet rs = stmt.executeQuery()) {
