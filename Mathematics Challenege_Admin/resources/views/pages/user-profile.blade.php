@@ -3,24 +3,6 @@
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => 'Set Challenge Parameters'])
     <div class="card shadow-lg mx-4 card-profile-bottom">
-        <!-- <div class="card-body p-3">
-            <div class="row gx-4">
-                <div class="col-auto">
-                    <div class="avatar avatar-xl position-relative">
-                        <img src="/img/team-1.jpg" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
-                    </div>
-                </div> -->
-                <!-- <div class="col-auto my-auto">
-                    <div class="h-100">
-                        <h5 class="mb-1">
-                            {{ auth()->user()->firstname ?? 'Firstname' }} {{ auth()->user()->lastname ?? 'Lastname' }}
-                        </h5>
-                        <p class="mb-0 font-weight-bold text-sm">
-                            Public Relations
-                        </p>
-                    </div>
-                </div> -->
-
 
 
                 <!DOCTYPE html>
